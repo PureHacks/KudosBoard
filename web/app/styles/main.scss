@@ -6,30 +6,47 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 $FontAwesomePath: "../bower_components/font-awesome/font/";
 @import "font-awesome/scss/font-awesome";
 
+// Google Fonts
+@import url(http://fonts.googleapis.com/css?family=Oxygen:400,700,300);
+
+/* Colour Variables */
+$white: #FFFFFF;
+$black: #000000;
+$darkGray: #848589;
+$lightGray: #DBDBDB;
+$teal: #44D6D8;
+
 /* Put your CSS here */
 html, body {
   margin: 20px;
 }
 
 body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
+    background: $white;
+    //font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Oxygen", sans-serif;
+    color: $black;
 }
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
-}
+.cards {
+    //@extend .row;
+    @extend .media-list;
 
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+    .card {
+        //@extend .col-xs-12;
+        @extend .media;
+
+        border-bottom: 9px solid $lightGray;
+        margin-bottom: 10px;
+        color: $lightGray;
+
+        a {
+            color: $darkGray;
+        }
+    }
+
+    .media-object {
+        @extend .img-circle;
+        //@extend .img-responsive;
+    }
 }

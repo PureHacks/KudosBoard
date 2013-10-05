@@ -1,21 +1,34 @@
 'use strict';
 
-angular.module('kudosApp', [])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
-      })
-      .when('/props', {
-        templateUrl: 'views/props.html',
-        controller: 'PropsCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
+var kudos = angular.module('kudosApp', []);
+
+kudos.config(function ($routeProvider) {
+  $routeProvider
+  .when('/', {
+    templateUrl: 'views/cards.html',
+    controller: 'CardsCtrl'
+  })
+  .when('/login', {
+    templateUrl: 'views/login.html',
+    controller: 'LoginCtrl'
+  })
+  .when('/search/:query', {
+    templateUrl: 'views/cards.html',
+    controller: 'CardsCtrl'
+  })
+  .when('/cards/user/:userId', {
+    templateUrl: 'views/cards.html',
+    controller: 'CardsCtrl'
+  })
+  .when('/cards/tag/:tag', {
+    templateUrl: 'views/cards.html',
+    controller: 'CardsCtrl'
+  })
+  .when('/card/:cardId', {
+    controller: 'CardsCtrl',
+    templateUrl: 'partials/card.html'
+  })
+  .otherwise({
+    redirectTo: '/'
   });
+});
