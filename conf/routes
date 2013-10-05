@@ -1,0 +1,25 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                               controllers.Application.index
+
+# CARDS
+GET     /cards                                          controllers.CardController.getCards
+GET     /card/:id                                       controllers.CardController.getCard(id: Int)
+PUT     /card                                           controllers.CardController.addCard
+
+# COMMENTS
+GET     /comment/:id                                    controllers.CommentController.get(id: Int)
+PUT     /comment/:card_id                               controllers.CommentController.add(card_id: Int)
+
+# USERS
+GET     /user/:username                                 controllers.UserController.getUser(username: String)
+GET     /users/:firstNamePrefix/:lastNamePrefix         controllers.UserController.getUsers(firstNamePrefix: String, lastNamePrefix)
+
+# DDL
+GET     /ddl                                            controllers.DDL.initDb
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
