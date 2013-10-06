@@ -1,5 +1,5 @@
 var api = (function() {
-	var apiUrl = "http://internal-dev.tor.nurun.com/props/ws/";
+	var apiUrl = "/props/ws/";
 	
 	return {
 		url: function() {
@@ -33,9 +33,9 @@ var api = (function() {
 				"id": parseInt(_cardId, 10) || 0
 			});
 		},
-		cardsByUser: function(_userId) {
+		cardsByUser: function(_username) {
 			return this.request("cards", {
-				"id": parseInt(_userId, 10) || 0
+				"username": _username
 			});
 		},
 		cardsByTag: function(_tag) {
