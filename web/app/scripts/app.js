@@ -3,9 +3,6 @@
 var kudos = angular.module('kudosApp', []);
 
 kudos.config(function ($routeProvider, $httpProvider) {
-  $httpProvider.defaults.useXDomain = true;
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
-
   $routeProvider
   .when('/', {
     templateUrl: 'views/cards.html',
@@ -35,7 +32,18 @@ kudos.config(function ($routeProvider, $httpProvider) {
     templateUrl: 'views/create.html',
     controller: 'CreateCardCtrl'
   })
+  .when('/comment/:cardId', {
+    templateUrl: 'views/comment.html',
+    controller: 'CommentCtrl'
+  })
   .otherwise({
     redirectTo: '/'
   });
 });
+
+kudos.controller('AppCtrl', function ($rootScope, appLoading) {
+  $rootScope.topScope = $rootScope;  
+  $rootScope.$on('$routeChangeStart', function () {
+      appLoading.loading();
+  });
+})

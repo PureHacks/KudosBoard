@@ -1,14 +1,19 @@
 'use strict';
 
-kudos.controller('CardsCtrl', function ($scope) {
+kudos.controller('CardsCtrl', function ($scope, appLoading) {
 	api.cards().done(function (response) {
 		$scope.cards = response;
 		$scope.$apply();
+
+        console.log(response);
+
+        appLoading.ready();
 	});
 })
 
-.controller('CreateCardCtrl', function ($rootScope, $scope, $http) {
+.controller('CreateCardCtrl', function ($rootScope, $scope, $http, appLoading) {
 	$rootScope.viewName = "create-card";
+    appLoading.ready();
 
 	$scope.createCard = function(card) {
 		card.sender = "pauline.ramos";
