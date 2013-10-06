@@ -41,6 +41,9 @@ ul {
     .controls {
         @extend .navbar-header;
         @extend .col-xs-12;
+        @extend .col-sm-6;
+        @extend .col-md-6;
+        @extend .col-lg-6;
         background-color: $teal;
 
         .btn-default {
@@ -54,6 +57,9 @@ ul {
 
     .filters {
         @extend .col-xs-12;
+        @extend .col-sm-6;
+        @extend .col-md-6;
+        @extend .col-lg-6;
         background-color: $white;
         color: $darkGray;
 
@@ -75,6 +81,9 @@ ul {
 
     .card-wrapper {
         @extend .col-xs-12;
+        @extend .col-sm-4;
+        @extend .col-md-4;
+        @extend .col-lg-4;
     }
 
     .card {
