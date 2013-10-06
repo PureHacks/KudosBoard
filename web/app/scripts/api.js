@@ -1,7 +1,6 @@
 var api = (function() {
-	var apiUrl = "http://internal-dev.tor.nurun.com:9000/",
-		lang = "en",
-		validLang = ["en", "fr"];
+	var apiUrl = "http://internal-dev.tor.nurun.com/props/ws/";
+	
 	return {
 		url: function() {
 			return apiUrl;
@@ -22,39 +21,32 @@ var api = (function() {
 
 		},
 		cards: function() {
-			return this.request("cards", {
-				"lang": lang
-			});
+			return this.request("cards", {});
 		},
 		user: function(_userId) {
 			return this.request("user", {
-				"id": parseInt(_userId, 10) || 0,
-				"lang": lang
+				"id": parseInt(_userId, 10) || 0
 			});
 		},
 		card: function(_cardId) {
 			return this.request("card", {
-				"id": parseInt(_cardId, 10) || 0,
-				"lang": lang
+				"id": parseInt(_cardId, 10) || 0
 			});
 		},
 		cardsByUser: function(_userId) {
 			return this.request("cards", {
-				"id": parseInt(_userId, 10) || 0,
-				"lang": lang
+				"id": parseInt(_userId, 10) || 0
 			});
 		},
 		cardsByTag: function(_tag) {
 			return this.request("cards", {
-				"tag": _tag,
-				"lang": lang
+				"tag": _tag
 			});
 		},
 		search: function(_query) {
 			if (_query) {
 				return this.request("", {
-					"input": _query,
-					"lang": lang
+					"input": _query
 				});
 			} else {
 				console.error("Search method requires a keyword to search");
