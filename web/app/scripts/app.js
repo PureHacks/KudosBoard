@@ -2,7 +2,10 @@
 
 var kudos = angular.module('kudosApp', []);
 
-kudos.config(function ($routeProvider) {
+kudos.config(function ($routeProvider, $httpProvider) {
+  $httpProvider.defaults.useXDomain = true;
+  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
   $routeProvider
   .when('/', {
     templateUrl: 'views/cards.html',
