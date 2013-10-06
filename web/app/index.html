@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="kudosApp">
+  <body ng-app="kudosApp" ng-controller="AppCtrl" ng-class="viewName">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -107,6 +107,7 @@
     <script src="scripts/services.js"></script>
     <script src="scripts/filters.js"></script>
     <script src="scripts/directives.js"></script>
+    <script src="scripts/controllers/application.js"></script>
     <script src="scripts/controllers/login.js"></script>
     <script src="scripts/controllers/cards.js"></script>
     <!-- endbuild -->

@@ -26,6 +26,10 @@ body {
     font-family: "Oxygen", sans-serif;
     padding-top: 140px;
     color: $black;
+
+    &.create-card {
+        padding-top: 0;
+    }
 }
 
 /* Resetting some styles */
@@ -76,6 +80,12 @@ ul {
     }
 }
 
+.create-card {
+    #navigation {
+        display: none;
+    }
+}
+
 .cards {
     @extend .row;
 
@@ -102,6 +112,19 @@ ul {
 
     .media-object {
         @extend .img-circle;
-        //@extend .img-responsive;
+    }
+}
+
+.create {
+    @extend .row;
+    color: $teal;
+
+    .create-form {
+        @extend .col-xs-12;
+    }
+
+    .btn-default {
+        background-color: $teal;
+        border-radius: 0;
     }
 }

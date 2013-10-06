@@ -30,7 +30,7 @@ kudos.config(function ($routeProvider) {
   })
   .when('/create', {
     templateUrl: 'views/create.html',
-    controller: 'CardsCtrl'
+    controller: 'CreateCardCtrl'
   })
   .otherwise({
     redirectTo: '/'
