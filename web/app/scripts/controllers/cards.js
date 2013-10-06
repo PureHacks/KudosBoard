@@ -1,9 +1,11 @@
 'use strict';
 
-kudos.controller('CardsCtrl', function ($scope) {
+kudos.controller('CardsCtrl', function ($scope, appLoading) {
 	api.cards().done(function (response) {
 		$scope.cards = response;
 		$scope.$apply();
+
+        appLoading.ready();
 	});
 })
 

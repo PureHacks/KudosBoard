@@ -38,8 +38,48 @@ ul {
     padding: 0;
 }
 
+.app-loading-container { 
+    display: block;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    color: $white;
+}
+.app-loading-animation {
+    width:60px;
+    height:60px;
+    display:block;
+    border-radius: 5px;
+    margin-left:-30px;
+    margin-top: -30px;
+    left: 50%;
+    top: 200px;
+    opacity:1;
+    position: absolute;
+}
+
+.app-loading-animation.ready {
+    -webkit-opacity: 0;
+       -moz-opacity: 0;
+            opacity: 0;
+            top: -70px;
+    -webkit-transition: all 1s ease;
+       -moz-transition: all 1s ease;
+            transition: all 1s ease;
+}
+
+.app-loading-animation.loading {
+    opacity: 1;
+    top: 200px;
+    -webkit-transition: all 1s ease;
+       -moz-transition: all 1s ease;
+            transition: all 1s ease;
+}
+
 #navigation {
     @extend .row;
+    display: block;
     background-color: $white;
 
     .controls {
