@@ -21,5 +21,10 @@ GET     /users/:firstNamePrefix/:lastNamePrefix         controllers.UserControll
 # DDL
 GET     /ddl                                            controllers.DDL.initDb
 
+# AUTHORIZATION
+GET     /directory/email/:email                         controllers.DirectoryController.searchEmail(email: String)
+GET     /directory                                      controllers.DirectoryController.getAll
+POST    /login                                          controllers.DirectoryController.login
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
