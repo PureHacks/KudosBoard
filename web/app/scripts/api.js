@@ -1,13 +1,16 @@
 var api = (function() {
-	var apiUrl = "/api/",
+	var apiUrl = "http://internal-dev.tor.nurun.com:9000/",
 		lang = "en",
 		validLang = ["en", "fr"];
 	return {
+		url: function() {
+			return apiUrl;
+		},
 		request: function(_url, _arg) {
 			if (typeof _arg === "object") {
 				return $.ajax({
-					//url: apiUrl + _url,
-					url: "/data/" + _url + ".json",
+					url: apiUrl + _url,
+					//url: "/data/" + _url + ".json",
 					data: _arg,
 					dataType: "json"
 				});
@@ -18,8 +21,13 @@ var api = (function() {
 		login: function(username, password) {
 
 		},
+		cards: function() {
+			return this.request("cards", {
+				"lang": lang
+			});
+		},
 		user: function(_userId) {
-			return this.request({
+			return this.request("user", {
 				"id": parseInt(_userId, 10) || 0,
 				"lang": lang
 			});
@@ -39,11 +47,6 @@ var api = (function() {
 		cardsByTag: function(_tag) {
 			return this.request("cards", {
 				"tag": _tag,
-				"lang": lang
-			});
-		},
-		cards: function() {
-			return this.request("cards", {
 				"lang": lang
 			});
 		},

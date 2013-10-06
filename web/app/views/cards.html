@@ -1,12 +1,14 @@
 <ul class="cards">
-	<li id="card-{{ card.id }}" class="card" ng-repeat="card in cards">
-		<a class="pull-left" href="#">
-		  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">
-		</a>
-		<div class="media-body">
-			<h4 class="media-heading">Props to <a href="#/cards/user/{{ card.to[0].email }}">{{ card.to[0].name }}</a> for</h4>
-			<p class="message">{{ card.message }}</p>
-			<p class="byline">From <a href="#/cards/user/{{ card.from[0].email }}">{{ card.from[0].name }}</a></p>
+	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards">
+		<div class="card">
+			<a class="pull-left" href="#">
+			  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Props to <a href="#/cards/user/{{ card.to[0].email }}">{{ card.to[0].name }}</a> for</h4>
+				<p class="message">{{ card.message }}</p>
+				<p class="byline">From <a href="#/cards/user/{{ card.from[0].email }}">{{ card.from[0].name }}</a></p>
+			</div>
 		</div>
 	</li>
 </ul>
