@@ -18,30 +18,76 @@ $teal: #44D6D8;
 
 /* Put your CSS here */
 html, body {
-  margin: 20px;
+  //margin: 20px;
 }
 
 body {
-    background: $white;
-    //font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: $black;
     font-family: "Oxygen", sans-serif;
+    padding-top: 140px;
     color: $black;
 }
 
+/* Resetting some styles */
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+#navigation {
+    @extend .row;
+    background-color: $white;
+
+    .controls {
+        @extend .navbar-header;
+        @extend .col-xs-12;
+        background-color: $teal;
+
+        .btn-default {
+            border-radius: 0;
+            border-left: 0;
+            text-transform: uppercase;
+            background-color: $teal;
+            border-color: $black;
+        }
+    }
+
+    .filters {
+        @extend .col-xs-12;
+        background-color: $white;
+        color: $darkGray;
+
+        .search {
+            @extend .pull-left;
+            margin: 0;
+        }
+
+        .sort {
+            @extend .pull-right;
+            margin: 0;
+            width: 30%
+        }
+    }
+}
+
 .cards {
-    //@extend .row;
-    @extend .media-list;
+    @extend .row;
+
+    .card-wrapper {
+        @extend .col-xs-12;
+    }
 
     .card {
-        //@extend .col-xs-12;
         @extend .media;
 
         border-bottom: 9px solid $lightGray;
-        margin-bottom: 10px;
-        color: $lightGray;
+        margin-bottom: 20px;
+        padding: 10px;
+        color: $darkGray;
+        background-color: $white;
 
         a {
-            color: $darkGray;
+            color: $black;
         }
     }
 

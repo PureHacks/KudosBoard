@@ -16,17 +16,21 @@ kudos.config(function ($routeProvider) {
     templateUrl: 'views/cards.html',
     controller: 'CardsCtrl'
   })
-  .when('/cards/user/:userId', {
-    templateUrl: 'views/cards.html',
-    controller: 'CardsCtrl'
-  })
   .when('/cards/tag/:tag', {
     templateUrl: 'views/cards.html',
     controller: 'CardsCtrl'
   })
-  .when('/card/:cardId', {
+  .when('/user/:userId', {
+    templateUrl: 'views/user.html',
+    controller: 'CardsCtrl'
+  })
+  .when('/card/:cardId/comment', {
     controller: 'CardsCtrl',
-    templateUrl: 'partials/card.html'
+    templateUrl: 'partials/comment.html'
+  })
+  .when('/create', {
+    templateUrl: 'views/create.html',
+    controller: 'CardsCtrl'
   })
   .otherwise({
     redirectTo: '/'
