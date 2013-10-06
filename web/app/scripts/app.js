@@ -32,6 +32,10 @@ kudos.config(function ($routeProvider, $httpProvider) {
     templateUrl: 'views/create.html',
     controller: 'CreateCardCtrl'
   })
+  .when('/comment/:cardId', {
+    templateUrl: 'views/comment.html',
+    controller: 'CommentCtrl'
+  })
   .otherwise({
     redirectTo: '/'
   });

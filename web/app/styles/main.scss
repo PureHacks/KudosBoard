@@ -139,14 +139,30 @@ ul {
     .card {
         @extend .media;
 
-        border-bottom: 9px solid $lightGray;
-        margin-bottom: 20px;
         padding: 10px;
         color: $darkGray;
         background-color: $white;
 
         a {
             color: $black;
+        }
+    }
+
+    .card-footer {
+        @extend .clearfix;
+        padding: 0 10px;
+
+        background-color: $lightGray;
+        margin-bottom: 20px;
+
+        .comments {
+            @extend .pull-left;
+            margin-top: 10px;
+        }
+
+        .from {
+            @extend .pull-right;
+            margin-top: 10px;
         }
     }
 
