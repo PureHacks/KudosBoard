@@ -15,9 +15,10 @@ object CardController extends Controller {
   }
 
   def addCard() = Action(parse.json) { request =>
+    val username = ""
     request.body.asOpt[AddCardRequest] match {
       case Some(card) =>
-        CardService.addCard(card)
+        CardService.addCard(username, card)
         Ok("ok")
       case None =>
         BadRequest

@@ -2,19 +2,24 @@ package controllers
 
 import play.api.mvc._
 import play.api.libs.json._
-import models.domain.User
+import services.UserService
 
 object UserController extends Controller {
 
-  def getUser(userName: String) = Action {
-    // TODO
-    val user = User(userName, "", "", "")
-    Ok(Json.toJson(user))
+  def getUser(username: String) = Action {
+    UserService.getUser(username) match {
+      case Some(user) => Ok(Json.toJson(user))
+      case None => NotFound
+    }
   }
 
   def getUsers(firstNamePrefix: String, lastNamePrefix: String) = Action {
-    // TODO
-    val users: Seq[User] = Seq()
+    val users = UserService.searchUsers(firstNamePrefix, lastNamePrefix)
     Ok(Json.toJson(users))
+  }
+
+  def ldapSync = Action {
+    UserService.ldapSync()
+    Ok("ok")
   }
 }
