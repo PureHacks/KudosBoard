@@ -21,25 +21,5 @@ object DirectoryController extends Controller {
     Ok(Json.toJson(result))
   }
 
-  def login = Action(parse.json) { implicit request =>
 
-    request.body.asOpt[LoginRequest] match {
-      case Some(loginRequest) =>
-        val username = loginRequest.username
-        val password = loginRequest.password
-        //val auth = LDAPContext.searchContext.authenticate(username, password)
-        val auth = LDAPContext.authenticate(username, password)
-        auth match {
-          case Some(userInfo) =>
-            val cookieValue = Json.toJson(userInfo).toString()
-            val userCookie = Cookie("user", cookieValue)
-            Ok("ok").withCookies(userCookie)
-          case None =>
-            Unauthorized("Authentication failed")
-        }
-      case None =>
-        BadRequest
-    }
-
-  }
 }
