@@ -6,10 +6,14 @@ import services.responses.LDAPUserInfo
 import models.domain.User
 
 import play.api.Play.current
-
+import scala.util.Try
 
 
 object LDAPContext {
+
+  implicit class RichIterator[A](val it: Iterator[A]) extends AnyVal {
+    def headOption: Option[A] = if (it.hasNext) Some(it.next()) else None
+  }
 
   def searchContext: LDAPContext = {
     val ctxt = for {
@@ -23,9 +27,22 @@ object LDAPContext {
     }
   }
 
+  def authenticate(username: String, password: String): Option[LDAPUserInfo] = {
+    Try {
+      val ctxt = new LDAPContext(s"$username@nurun.com", password)
+      ctxt.searchUsername(username)
+    }.toOption.flatten
+  }
+
 }
 
 class LDAPContext(username: String, password: String) extends InitialDirContext {
+  import LDAPContext._
+
+  implicit def NamingEnumerationIterator(searchResults: NamingEnumeration[SearchResult]) = new Iterator[SearchResult] {
+    def hasNext: Boolean = searchResults.hasMore
+    def next(): SearchResult = searchResults.next()
+  }
 
   private val mailStr = "ou=users,ou=Toronto,dc=nurun,dc=com"
 
@@ -49,17 +66,17 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
     }
   }
 
-  def findAll(): Seq[LDAPUserInfo] = searchEmail("*@nurun.com")
+  def findAll(): Iterator[LDAPUserInfo] = searchEmail("*@nurun.com")
 
-  def searchEmail(emailPattern: String): Seq[LDAPUserInfo] = {
+  def searchEmail(emailPattern: String): Iterator[LDAPUserInfo] = {
     val constraints = new SearchControls()
     constraints.setSearchScope(SearchControls.SUBTREE_SCOPE)
 
     val filterStr = s"mail=$emailPattern"
 
-    Option(ctx.search(mailStr, filterStr, constraints)).map(
-      getSearchResults(getUserInfo)
-    ).getOrElse(Seq())
+    Option(ctx.search(mailStr, filterStr, constraints))
+      .map(_.map(getUserInfo))
+      .getOrElse(Iterator())
   }
 
   def searchUsername(username: String): Option[LDAPUserInfo] = {
@@ -68,9 +85,8 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
 
     val filterStr = s"CN=$username"
 
-    Option(ctx.search(mailStr, filterStr, constraints)).flatMap(
-      getSearchResults(getUserInfo)(_).headOption
-    )
+    val searchResults: Iterator[SearchResult] = ctx.search(mailStr, filterStr, constraints)
+    Option(searchResults).flatMap(_.headOption).map(getUserInfo)
   }
   
   private def getUserInfo(searchResult: SearchResult): LDAPUserInfo = {
@@ -91,18 +107,7 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
 
     LDAPUserInfo(userName, firstName, lastName, email)
   }
-  
-  private def getSearchResults[T](makeResult: SearchResult => T)(searchResults: NamingEnumeration[SearchResult]): Seq[T] = {
-    val result = scala.collection.mutable.Buffer[T]()
-    
-    while(searchResults.hasMore) {
-      try {
-        val sr = searchResults.next()
-        result += makeResult(sr)        
-      }
-    }
-    result.toSeq
-  }
+
 
   def authenticate(username: String, password: String): Option[LDAPUserInfo] = {
     try {
@@ -113,9 +118,8 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
       constraints.setCountLimit(1)
       constraints.setTimeLimit(5000)
       val searchResult = ctx.search(searchBase, searchString, constraints)
-      val getDnAndInfo = Option(searchResult).map {
-        getSearchResults( sr =>
-          (sr.getAttributes.get("distinguishedName").get().asInstanceOf[String], getUserInfo(sr)))
+      val getDnAndInfo = Option(searchResult).map { searchResults =>
+        searchResults.map( sr =>  (sr.getAttributes.get("distinguishedName").get().asInstanceOf[String], getUserInfo(sr)))
       }.flatMap(_.headOption)
       getDnAndInfo.map { case (dn, userInfo) =>
         new LDAPContext(dn, password)

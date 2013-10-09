@@ -11,13 +11,13 @@ object DirectoryController extends Controller {
 
   def searchEmail(emailPattern: String) = Action {
     val ldapContext = LDAPContext.searchContext
-    val result = ldapContext.searchEmail(emailPattern + "*")
+    val result = ldapContext.searchEmail(emailPattern + "*").toSeq
     Ok(Json.toJson(result))
   }
 
   def getAll = Action {
     val ldapContext = LDAPContext.searchContext
-    val result = ldapContext.findAll()
+    val result = ldapContext.findAll().toSeq
     Ok(Json.toJson(result))
   }
 
@@ -27,7 +27,9 @@ object DirectoryController extends Controller {
       case Some(loginRequest) =>
         val username = loginRequest.username
         val password = loginRequest.password
-        LDAPContext.searchContext.authenticate(username, password) match {
+        //val auth = LDAPContext.searchContext.authenticate(username, password)
+        val auth = LDAPContext.authenticate(username, password)
+        auth match {
           case Some(userInfo) =>
             val cookieValue = Json.toJson(userInfo).toString()
             val userCookie = Cookie("user", cookieValue)
