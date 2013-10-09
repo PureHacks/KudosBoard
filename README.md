@@ -19,4 +19,5 @@ Fetch the database DDL by running the application and browsing to
 http://localhost:9000/ddl
 Use this resulting script to initialize the database.
 
-There is a Postman (http://www.getpostman.com/) collection in /Postman.json
+There is a Postman (http://www.getpostman.com/) collection at
+https://www.getpostman.com/collections/7f539510e9464008e6e3.

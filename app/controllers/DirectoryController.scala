@@ -5,32 +5,21 @@ import play.api.libs.json.Json
 import play.api.data._
 import play.api.data.Forms._
 import services.LDAPContext
+import services.requests.LoginRequest
 
 object DirectoryController extends Controller {
 
   def searchEmail(emailPattern: String) = Action {
     val ldapContext = LDAPContext.searchContext
-    val result = ldapContext.search(emailPattern + "*")
+    val result = ldapContext.searchEmail(emailPattern + "*").toSeq
     Ok(Json.toJson(result))
   }
 
   def getAll = Action {
     val ldapContext = LDAPContext.searchContext
-    val result = ldapContext.findAll()
+    val result = ldapContext.findAll().toSeq
     Ok(Json.toJson(result))
   }
 
-  def login = Action { implicit request =>
-    val loginForm = Form(
-      tuple(
-        "username" -> text,
-        "password" -> text
-      )
-    )
-    val (username, password) = loginForm.bindFromRequest().get
-    LDAPContext.authenticate(username, password) match {
-      case true => Ok("ok")
-      case false => Unauthorized("Authentication failed")
-    }
-  }
+
 }

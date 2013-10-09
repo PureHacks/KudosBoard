@@ -14,4 +14,6 @@ object Tags extends Table[Tag]("tag") {
   def card_id = column[Int]("card_id")
   def text = column[String]("text")
   def * = card_id ~ text <> (Tag(_,_), Tag.unapply)
+
+  def card = foreignKey("tag_card_FK", card_id, Cards)(_.id)
 }

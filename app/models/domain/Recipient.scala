@@ -12,9 +12,12 @@ object Recipient{
 
 object Recipients extends Table[Recipient]("recipient") {
   def card_id = column[Int]("card_id")
-  def recipient = column[String]("recipient")
+  def username = column[String]("username")
 
-  def * = card_id ~ recipient <> (Recipient(_,_), Recipient.unapply)
+  def * = card_id ~ username <> (Recipient(_,_), Recipient.unapply)
 
-  def pk = primaryKey("recipient_PK", (card_id, recipient))
+  def pk = primaryKey("recipient_PK", (username, card_id))
+
+  def card = foreignKey("card_FK", card_id, Cards)(_.id)
+  def user = foreignKey("user_FK", username, Users)(_.username)
 }

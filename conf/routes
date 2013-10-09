@@ -17,6 +17,8 @@ PUT     /comment/:card_id                               controllers.CommentContr
 # USERS
 GET     /user/:username                                 controllers.UserController.getUser(username: String)
 GET     /users/:firstNamePrefix/:lastNamePrefix         controllers.UserController.getUsers(firstNamePrefix: String, lastNamePrefix)
+GET     /users                                          controllers.DirectoryController.getAll
+POST    /users/ldapSync                                 controllers.UserController.ldapSync
 
 # DDL
 GET     /ddl                                            controllers.DDL.initDb
@@ -24,7 +26,7 @@ GET     /ddl                                            controllers.DDL.initDb
 # AUTHORIZATION
 GET     /directory/email/:email                         controllers.DirectoryController.searchEmail(email: String)
 GET     /directory                                      controllers.DirectoryController.getAll
-POST    /login                                          controllers.DirectoryController.login
+POST    /login                                          controllers.Authentication.mockLogin
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)

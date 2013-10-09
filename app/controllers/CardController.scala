@@ -5,7 +5,7 @@ import services._
 import play.api.libs.json._
 import models.request.AddCardRequest
 
-object CardController extends Controller {
+object CardController extends Controller with Auth {
 
   def getCard(id: Int) = Action {
     CardService.getCard(id) match {
@@ -14,13 +14,15 @@ object CardController extends Controller {
     }
   }
 
-  def addCard() = Action(parse.json) { request =>
-    request.body.asOpt[AddCardRequest] match {
-      case Some(card) =>
-        CardService.addCard(card)
-        Ok("ok")
-      case None =>
-        BadRequest
+  def addCard() = secured { username =>
+    Action(parse.json) { request =>
+      request.body.asOpt[AddCardRequest] match {
+        case Some(card) =>
+          CardService.addCard(username, card)
+          Ok("ok")
+        case None =>
+          BadRequest
+      }
     }
   }
 

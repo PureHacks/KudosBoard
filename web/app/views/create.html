@@ -1,14 +1,24 @@
 <div class="create">
 	<form role="form" class="create-form" ng-controller="CreateCardCtrl" ng-submit="createCard(card)">
+		<legend>Create</legend>
+		<button class="btn btn-danger btn-close">x</button>
 	  <div class="form-group">
 	    <label for="props-to">Props To</label>
-	    <input type="text" class="form-control" id="props-to" ng-model="card.recipient">
+	    <input type="text" class="form-control" id="recipients" ng-model="card.recipients" ng-list required/>
 	  </div>
 	  <div class="form-group">
 	    <label for="message">Message</label>
-	    <textarea class="form-control" id="message" rows="3" ng-model="card.message">
+	    <textarea class="form-control" id="message" rows="3" ng-model="card.message" required>
 	    </textarea>
 	  </div>
-	  <button type="submit" class="btn btn-default btn-lg">Send</button>
+		<div class="form-group">
+			<label for="props-from">From</label>
+			<p>
+				<i class="icon-user" /> Shan Du
+				<input type="hidden" class="form-control" id="senders" ng-model="card.senders" ng-list required />
+			</p>
+		</div>
+		<button class="btn btn-default btn-lg disabled">Preview</button>
+	  <button type="submit" class="btn btn-default btn-lg">Send</button>	  
 	</form>
 </div>

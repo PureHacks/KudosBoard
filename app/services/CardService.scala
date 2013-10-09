@@ -33,20 +33,24 @@ object CardService {
   def getCards(forUser: Option[String] = None): List[view.Card] = {
     db.withSession {
       val query = forUser match {
-        case Some(user) =>
-          for { card <- domain.Cards
-                recipient <- domain.Recipients
-                if recipient.card_id === card.id && recipient.recipient === user
-          } yield card
-        case None => for (card <- domain.Cards.sortBy(_.date)) yield card
+        case Some(username) =>
+          for { recipient <- domain.Recipients
+                if recipient.username === username
+                card <- recipient.card.sortBy(_.date desc)
+          } yield {
+            card
+          }
+        case None => for (card <- domain.Cards.sortBy(_.date desc)) yield card
       }
       query.list.map(view.Card.fromDM)
     }
   }
 
-  def addCard(request: AddCardRequest) {
+  def addCard(sender: String, request: AddCardRequest) {
     db.withSession {
-      val card_id = domain.Cards.autoInc.insert(request.toCard)
+      val now = DateTime.now
+      val card = domain.Card(None, sender, now, request.message)
+      val card_id = domain.Cards.autoInc.insert(card)
       val recipients = request.recipients.map(domain.Recipient(card_id, _))
       domain.Recipients.insertAll(recipients: _*)
       val tags = request.message.split(" ").filter(_.startsWith("#")).map(domain.Tag(card_id, _))
@@ -61,7 +65,7 @@ object CardService {
     }
   }
 
-  def addComment(card_id: Int, request: AddCommentRequest) {
+  def addComment(card_id: Int, author: String, request: AddCommentRequest) {
     db.withSession {
       import request._
       val now = DateTime.now

@@ -1,6 +1,8 @@
-var api = (function() {
+'use strict';
+
+var api = (function($) {
 	var apiUrl = "/props/ws/";
-	
+
 	return {
 		url: function() {
 			return apiUrl;
@@ -43,6 +45,13 @@ var api = (function() {
 				"tag": _tag
 			});
 		},
+		createCard: function(_cardData) {
+			return this.request("create/card", {
+				"recipients": _cardData.recipients,
+				"senders": _cardData.senders,
+				"message": _cardData.message
+			});
+		},
 		search: function(_query) {
 			if (_query) {
 				return this.request("", {
@@ -56,4 +65,4 @@ var api = (function() {
 			return this.search(_query);
 		}
 	};
-})();
+})(window.jQuery || {});

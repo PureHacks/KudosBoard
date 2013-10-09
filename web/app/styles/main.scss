@@ -88,7 +88,7 @@ ul {
         @extend .col-sm-6;
         @extend .col-md-6;
         @extend .col-lg-6;
-        background-color: $teal;
+        /*background-color: $teal;*/
 
         .btn-default {
             border-radius: 0;
@@ -96,6 +96,8 @@ ul {
             text-transform: uppercase;
             background-color: $teal;
             border-color: $black;
+						opacity: 0.75;
+						&:hover { opacity: 1; }
         }
     }
 
@@ -174,13 +176,20 @@ ul {
 .create {
     @extend .row;
     color: $teal;
+		margin-top:30px;
 
+		legend { color:$teal; text-transform:uppercase; }
+		
     .create-form {
         @extend .col-xs-12;
+				
+				.btn-close { position:absolute; top:-15px; right:15px; padding:3px 9px; }
     }
 
     .btn-default {
         background-color: $teal;
         border-radius: 0;
+				
+				&:hover { color:#fff; }
     }
 }
