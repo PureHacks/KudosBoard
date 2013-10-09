@@ -65,7 +65,7 @@ object CardService {
     }
   }
 
-  def addComment(card_id: Int, request: AddCommentRequest) {
+  def addComment(card_id: Int, author: String, request: AddCommentRequest) {
     db.withSession {
       import request._
       val now = DateTime.now
