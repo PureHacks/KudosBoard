@@ -16,5 +16,7 @@ object Recipients extends Table[Recipient]("recipient") {
 
   def * = card_id ~ recipient <> (Recipient(_,_), Recipient.unapply)
 
-  def pk = primaryKey("recipient_PK", (card_id, recipient))
+  def pk = primaryKey("recipient_PK", (recipient, card_id))
+
+  def card = foreignKey("card_FK", card_id, Cards)(_.id)
 }

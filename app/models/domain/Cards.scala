@@ -19,12 +19,11 @@ object Cards extends Table[Card]("card") {
   def sender = column[String]("sender")
   def date = column[DateTime]("date")
   def message = column[String]("message")
-  def comments =
-    for (comment <- Comments
-         if comment.card_id === id) yield comment
 
   def * = id.? ~ sender ~ date ~ message <> (Card(_,_,_,_), Card.unapply)
-
   def autoInc = id.? ~ sender ~ date ~ message <> (Card(_,_,_,_), Card.unapply) returning id
 
+  def comments = for (comment <- Comments if comment.card_id === id) yield comment
+  def recipients = for (recipient <- Recipients if recipient.card_id === id) yield recipient
+  def coAuthors = for (coAuthor <- CoAuthors if coAuthor.card_id === id) yield coAuthor
 }
