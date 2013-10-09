@@ -34,11 +34,13 @@ object CardService {
     db.withSession {
       val query = forUser match {
         case Some(user) =>
-          for { card <- domain.Cards
-                recipient <- domain.Recipients
-                if recipient.card_id === card.id && recipient.recipient === user
-          } yield card
-        case None => for (card <- domain.Cards.sortBy(_.date)) yield card
+          for { recipient <- domain.Recipients
+                if recipient.recipient === user
+                card <- recipient.card.sortBy(_.date desc)
+          } yield {
+            card
+          }
+        case None => for (card <- domain.Cards.sortBy(_.date desc)) yield card
       }
       query.list.map(view.Card.fromDM)
     }

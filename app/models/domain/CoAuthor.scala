@@ -16,5 +16,7 @@ object CoAuthors extends Table[(CoAuthor)]("coauthor") {
   def * = card_id ~ author <> (CoAuthor(_,_), CoAuthor.unapply)
 
   def pk = primaryKey("coauthors_PK", (card_id, author))
+
+  def card = foreignKey("coauthor_card_FK", card_id, Cards)(_.id)
 }
 
