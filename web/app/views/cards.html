@@ -5,10 +5,17 @@
 			  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">
 			</a>
 			<div class="media-body">
-				<h4 class="media-heading">Props to <a href="#/cards/user/{{ card.to[0].email }}">{{ card.to[0].name }}</a> for</h4>
+				<h4 class="media-heading">Props to <a href="#/cards/user/{{ card.recipient[0] }}">{{ card.recipient[0] }}</a> for</h4>
 				<p class="message">{{ card.message }}</p>
-				<p class="byline">From <a href="#/cards/user/{{ card.from[0].email }}">{{ card.from[0].name }}</a></p>
 			</div>
+		</div>
+		<div class="card-footer">
+			<p class="comments">
+				<a href="#/comment/{{ card.id }}">
+					<i class="icon-comment icon-flip-horizontal"></i>
+				</a>
+			</p>
+			<p class="from">From <a href="#/cards/user/{{ card.senders[0] }}">{{ card.senders[0] }}</a></p>
 		</div>
 	</li>
 </ul>
