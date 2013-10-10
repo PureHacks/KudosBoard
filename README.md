@@ -20,4 +20,4 @@ http://localhost:9000/ddl
 Use this resulting script to initialize the database.
 
 There is a Postman (http://www.getpostman.com/) collection at
-https://www.getpostman.com/collections/7f539510e9464008e6e3.
+https://www.getpostman.com/collections/7f539510e9464008e6e3
