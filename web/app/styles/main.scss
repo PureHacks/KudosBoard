@@ -88,7 +88,6 @@ ul {
         @extend .col-sm-6;
         @extend .col-md-6;
         @extend .col-lg-6;
-        background-color: $teal;
 
         .btn-default {
             border-radius: 0;
@@ -96,6 +95,8 @@ ul {
             text-transform: uppercase;
             background-color: $teal;
             border-color: $black;
+						opacity: 0.75;
+						&:hover { opacity: 1; }
         }
     }
 
@@ -110,6 +111,7 @@ ul {
         .search {
             @extend .pull-left;
             margin: 0;
+						width: 50%;
         }
 
         .sort {
@@ -174,13 +176,28 @@ ul {
 .create {
     @extend .row;
     color: $teal;
+		margin-top:30px;
 
+		legend { color:$teal; text-transform:uppercase; }
+		
     .create-form {
         @extend .col-xs-12;
+				
+				.btn-cancel { position:absolute; top:-15px; right:15px; padding:3px 9px; }
+				.twitter-typeahead { 
+					display:block !important;
+					
+					.tt-hint { visibility:hidden !important; }
+					.tt-dropdown-menu { background-color:#fff; }
+				}
+				
+				.recipients { background-color:#fff !important; }
     }
 
     .btn-default {
         background-color: $teal;
         border-radius: 0;
+				
+				&:hover { color:#fff; }
     }
 }
