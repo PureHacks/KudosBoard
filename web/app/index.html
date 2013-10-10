@@ -49,24 +49,25 @@
       </div>
 
       <div class="filters">
-        <form class="navbar-form navbar-left search" role="search">
-          <div class="input-append">
-            <input class="span2" type="text" placeholder="Email address">
-            <span class="add-on"><i class="icon-search icon-flip-horizontal"></i></span>
+        <form class="search" role="search">
+          <div class="input-group">
+						<input type="text" class="form-control" placeholder="Enter user or tag" />
+						<span class="input-group-addon"><i class="icon-search icon-flip-horizontal"></i></span>
           </div>
         </form>
         
-        <ul class="nav navbar-nav navbar-right sort">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Newest</a></li>
-              <li><a href="#">Oldest</a></li>
-              <li><a href="#">Most Comments</a></li>
-              <li><a href="#">Most +1s</a></li>
-            </ul>
-          </li>
-        </ul>
+				<div class="btn-group sort">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+						Sort <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Newest</a></li>
+						<li><a href="#">Oldest</a></li>
+						<li><a href="#">Sender</a></li>
+						<li><a href="#">Receiver</a></li>
+					</ul>
+				</div>
+        
       </div><!-- /.navbar-collapse -->
     </nav>
 
@@ -100,6 +101,7 @@
     <script src="bower_components/bootstrap-sass/js/scrollspy.js"></script>
     <script src="bower_components/bootstrap-sass/js/collapse.js"></script>
     <script src="bower_components/bootstrap-sass/js/tab.js"></script>
+		<script src="bower_components/typeahead.js/dist/typeahead.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/modules.js -->
