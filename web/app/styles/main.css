@@ -6465,13 +6465,16 @@ ul {
   display: block;
   background-color: white; }
   #navigation .controls {
-    background-color: #44d6d8; }
+    /*background-color: $teal;*/ }
     #navigation .controls .btn-default {
       border-radius: 0;
       border-left: 0;
       text-transform: uppercase;
       background-color: #44d6d8;
-      border-color: black; }
+      border-color: black;
+      opacity: 0.75; }
+      #navigation .controls .btn-default:hover {
+        opacity: 1; }
   #navigation .filters {
     background-color: white;
     color: #848589; }
@@ -6500,7 +6503,18 @@ ul {
     margin-top: 10px; }
 
 .create {
-  color: #44d6d8; }
+  color: #44d6d8;
+  margin-top: 30px; }
+  .create legend {
+    color: #44d6d8;
+    text-transform: uppercase; }
+  .create .create-form .btn-close {
+    position: absolute;
+    top: -15px;
+    right: 15px;
+    padding: 3px 9px; }
   .create .btn-default {
     background-color: #44d6d8;
     border-radius: 0; }
+    .create .btn-default:hover {
+      color: #fff; }
