@@ -1,6 +1,6 @@
 package services
 
-import org.apache.commons.mail.{Email, EmailException, SimpleEmail}
+import org.apache.commons.mail._
 import play.api.Play.current
 
 object EmailNotification {
@@ -11,9 +11,9 @@ object EmailNotification {
 	val smtpsSsl = current.configuration.getBoolean("smtps.ssl").getOrElse(false)
 	val smtpsEmail = current.configuration.getString("smtps.email").getOrElse("props@nurun.com")
 	
-	def send( fromEmail: String, toEmail: String, subject: String, content: String) {
+	def send( fromEmails: List[String], toEmails: List[String], subject: String, content: String) {
 	
-		val email = new SimpleEmail()
+		val email = new HtmlEmail()
 		email.setHostName(smtpsHost)
 		email.setSslSmtpPort(smtpsPort)
 		email.setSmtpPort(smtpsPortInt)
@@ -21,14 +21,20 @@ object EmailNotification {
 
 		try {
 			email.setFrom(smtpsEmail)
-			email.addTo(toEmail)
-			email.addCc(fromEmail)
+      toEmails foreach { toEmail =>
+        email.addTo(toEmail)
+      }
+      fromEmails foreach { fromEmail =>
+        email.addCc(fromEmail)
+      }
 			email.setSubject(subject)
-			email.setMsg(content)
+			email.setHtmlMsg(content)
 			email.send()
-			println("Props sent from [" + fromEmail + "] to ["  + toEmail + "]")
+			println("Props sent from [" + fromEmails.mkString(", ") + "] to ["  + toEmails.mkString(", ") + "]")
 		} catch {
-			case ee: EmailException =>
+			case e: Exception =>
+        println("oops")
+        throw e
 		}
 	}
 }

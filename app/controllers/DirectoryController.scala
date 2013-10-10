@@ -23,7 +23,7 @@ object DirectoryController extends Controller {
   }
 
   def sendNotification(emailPattern: String) = Action {
-    EmailNotification.send(emailPattern,emailPattern,"You have received Props from someone","That someone is you! (for now)")
+    EmailNotification.send(List(emailPattern), List(emailPattern), "You have received Props from someone","That someone is you! (for now)")
     Ok(Json.toJson("email sent"))
   }
 }

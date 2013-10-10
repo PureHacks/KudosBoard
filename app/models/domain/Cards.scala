@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 import mappers.DateTimeMapper._
 
 case class Card( id: Option[Int],
-                 sender: String,
+                 sender_id: String,
                  date: DateTime,
                  message: String)
 
@@ -16,14 +16,22 @@ object Card {
 
 object Cards extends Table[Card]("card") {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
-  def sender = column[String]("sender")
+  def sender_id = column[String]("sender")
   def date = column[DateTime]("date")
   def message = column[String]("message")
 
-  def * = id.? ~ sender ~ date ~ message <> (Card(_,_,_,_), Card.unapply)
-  def autoInc = id.? ~ sender ~ date ~ message <> (Card(_,_,_,_), Card.unapply) returning id
+  def * = id.? ~ sender_id ~ date ~ message <> (Card(_,_,_,_), Card.unapply)
+  def autoInc = id.? ~ sender_id ~ date ~ message <> (Card(_,_,_,_), Card.unapply) returning id
+
+  def sender = foreignKey("card_sender_FK", sender_id, Users)(_.username)
 
   def comments = for (comment <- Comments if comment.card_id === id) yield comment
-  def recipients = for (recipient <- Recipients if recipient.card_id === id) yield recipient
-  def coAuthors = for (coAuthor <- CoAuthors if coAuthor.card_id === id) yield coAuthor
+  def recipients = for {
+    recipient <- Recipients if recipient.card_id === id
+    user <- recipient.user
+  } yield user
+  def coAuthors = for {
+    coAuthor <- CoAuthors if coAuthor.card_id === id
+    user <- coAuthor.user
+  } yield user
 }
