@@ -5,6 +5,7 @@ import play.api.libs.json.Json
 import play.api.data._
 import play.api.data.Forms._
 import services.LDAPContext
+import services.EmailNotification
 import services.requests.LoginRequest
 
 object DirectoryController extends Controller {
@@ -21,5 +22,8 @@ object DirectoryController extends Controller {
     Ok(Json.toJson(result))
   }
 
-
+  def sendNotification(emailPattern: String) = Action {
+    EmailNotification.send(emailPattern,emailPattern,"You have received Props from someone","That someone is you! (for now)")
+    Ok(Json.toJson("email sent"))
+  }
 }
