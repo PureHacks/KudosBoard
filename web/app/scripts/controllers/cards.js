@@ -31,5 +31,10 @@ kudos.controller('CardsCtrl', function ($scope, appLoading) {
         	console.log('create card error');
         	//console.log(error);
         });
-    }
+    };
+		
+	$scope.cancel = function() {
+		console.log("cancelling");
+		window.history.back();
+	};
 });
