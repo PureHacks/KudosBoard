@@ -15,7 +15,6 @@ object CardRequest {
   implicit val format = Json.format[CardRequest]
 }
 
-
 object CardService {
 
   val db = Database.forDataSource(DB.getDataSource())
@@ -30,7 +29,7 @@ object CardService {
     }
   }
 
-  def getCards(forUser: Option[String] = None): List[view.Card] = {
+  def getCards(forUser: Option[String] = None, startIndex: Option[Int] = None, maxResults: Option[Int] = None): List[view.Card] = {
     db.withSession {
       val query = forUser match {
         case Some(username) =>
@@ -42,7 +41,10 @@ object CardService {
           }
         case None => for (card <- domain.Cards.sortBy(_.date desc)) yield card
       }
-      query.list.map(view.Card.fromDM)
+      val withStartIndex = startIndex.map(idx => query.drop(idx)).getOrElse(query)
+      val withMaxResults = maxResults.map(rows => withStartIndex.take(rows)).getOrElse(withStartIndex)
+
+      withMaxResults.list.map(view.Card.fromDM)
     }
   }
 

@@ -33,7 +33,6 @@ trait Auth extends Controller {
     }
   }
 
-
   private def withTicket(ticket: String)(produceResult: => Result): Result =
     isValid(ticket) match {
       case valid => if (valid) produceResult else fail(s"provided ticket $ticket is invalid")

@@ -35,7 +35,6 @@ object UserService {
         if user.firstname like s"$firstNamePrefix%"
         if user.lastname like s"$lastNamePrefix%"
       } yield user
-      println(users.selectStatement)
       users.list
     }
   }

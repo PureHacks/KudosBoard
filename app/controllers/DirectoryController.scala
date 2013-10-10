@@ -21,5 +21,4 @@ object DirectoryController extends Controller {
     Ok(Json.toJson(result))
   }
 
-
 }
