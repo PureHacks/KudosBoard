@@ -16,9 +16,13 @@ kudos.config(function ($routeProvider, $httpProvider) {
 		templateUrl: 'views/cards.html',
 		controller: 'CardsCtrl'
 	})
-	.when('/user/:userId', {
+	.when('/user/:username', {
 		templateUrl: 'views/user.html',
-		controller: 'CardsCtrl'
+		controller: 'UserCtrl'
+	})
+	.when('/card/:cardId', {
+		controller: 'CardCtrl',
+		templateUrl: 'partials/card.html'
 	})
 	.when('/card/:cardId/comment', {
 		controller: 'CardsCtrl',
@@ -42,9 +46,6 @@ kudos.controller('AppCtrl', function ($rootScope, appLoading, $cookieStore, $htt
 	$rootScope.$on('$routeChangeStart', function () {
 			appLoading.loading();
 	});
-})
-.controller("LoginCtrl", function($rootScope) {
-	$rootScope.topScope = $rootScope;
 	$rootScope.awesomeThings = [
 		'HTML5 Boilerplate',
 		'AngularJS',
