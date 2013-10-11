@@ -25,10 +25,8 @@ var api = (function($) {
 		cards: function() {
 			return this.request("cards", {});
 		},
-		user: function(_userId) {
-			return this.request("user", {
-				"id": parseInt(_userId, 10) || 0
-			});
+		user: function(_username) {
+			return this.request("user/" + _username, {});
 		},
 		card: function(_cardId) {
 			return this.request("card", {
