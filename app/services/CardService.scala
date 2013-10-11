@@ -57,24 +57,20 @@ object CardService {
       domain.Recipients.insertAll(recipients: _*)
       val tags = request.message.split(" ").filter(_.startsWith("#")).map(domain.Tag(card_id, _))
       domain.Tags.insertAll(tags: _*)
-      sendNotification(card_id)
+      EmailNotification.sendNotification(card_id)
     }
   }
 
-  private def mailMessage(senders: String, url: String): String =
-    s"Props to you! You have received Kudos from $senders. You can see it <a href='$url'>here</a>."
-
-
-  def sendNotification(card_id: Int) = {
-    getCard(card_id) map { card =>
-      val senders = card.senders.map(_.email)
-      val appRoot = current.configuration.getString("appRoot").getOrElse("")
-      val url = s"$appRoot/card/$card_id"
-      val subject = "Props to you!"
-      val message = mailMessage(senders.mkString(", "), url)
-      val recipients = card.recipients.map(_.email)
-      println(s"$recipients: $message")
-      EmailNotification.send(recipients, senders, subject, message)
+  def deleteCard(card_id: Int, username: String): Boolean = {
+    db.withSession {
+      val cardsToDelete = for {
+        card <- domain.Cards
+        if card.id === card_id
+        if (for {sender <- card.sender if sender.username === username} yield sender).exists
+      } yield card
+      val result = !cardsToDelete.list.isEmpty
+      cardsToDelete.delete
+      result
     }
   }
 

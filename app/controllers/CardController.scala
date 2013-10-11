@@ -36,10 +36,27 @@ object CardController extends Controller with Auth {
     Ok(result)
   }
 
+  def getMyCards = secured { username =>
+    Action { request =>
+      val startIndex = request.queryString.get("startIndex").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
+      val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
+      val cards = CardService.getCards(Some(username), startIndex, maxResults)
+      val result = Json.toJson(cards)
+      Ok(result)
+    }
+  }
+
   def getCardComments(id: Int) = Action { request =>
     CardService.getCard(id).map { card =>
       Ok(Json.toJson(card.comments))
     }.getOrElse(NotFound)
+  }
+
+  def deleteCard(card_id: Int) = secured { username =>
+    Action {
+      CardService.deleteCard(card_id, username)
+      Ok("ok")
+    }
   }
 
 }
