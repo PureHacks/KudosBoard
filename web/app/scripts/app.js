@@ -42,9 +42,6 @@ kudos.controller('AppCtrl', function ($rootScope, appLoading, $cookieStore, $htt
 	$rootScope.$on('$routeChangeStart', function () {
 			appLoading.loading();
 	});
-})
-.controller("LoginCtrl", function($rootScope) {
-	$rootScope.topScope = $rootScope;
 	$rootScope.awesomeThings = [
 		'HTML5 Boilerplate',
 		'AngularJS',

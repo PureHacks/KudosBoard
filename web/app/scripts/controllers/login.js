@@ -10,7 +10,7 @@ kudos.controller("ldapLoginCtrl", function($rootScope, $scope, $http, $cookieSto
 			}).success(function (response) {
 				console.log('create card success');
 				console.log(response);
-				$cookieStore.put("username",userAuth.username);
+				//$cookieStore.put("username",userAuth.username);
 				window.location.href = "/props/";
 			}).error(function (error) {
 				console.log('create card error');
