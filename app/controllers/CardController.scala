@@ -6,7 +6,7 @@ import play.api.libs.json._
 import models.request.AddCardRequest
 import scala.util.Try
 
-object CardController extends Controller with Auth {
+object CardController extends Controller with Authentication {
 
   def getCard(id: Int) = Action {
     CardService.getCard(id) match {
@@ -15,11 +15,11 @@ object CardController extends Controller with Auth {
     }
   }
 
-  def addCard() = secured { username =>
+  def addCard() = authenticated { user =>
     Action(parse.json) { request =>
       request.body.asOpt[AddCardRequest] match {
         case Some(card) =>
-          CardService.addCard(username, card)
+          CardService.addCard(user.userName, card)
           Ok("ok")
         case None =>
           BadRequest
@@ -36,11 +36,11 @@ object CardController extends Controller with Auth {
     Ok(result)
   }
 
-  def getMyCards = secured { username =>
+  def getMyCards = authenticated { user =>
     Action { request =>
       val startIndex = request.queryString.get("startIndex").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
       val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
-      val cards = CardService.getCards(Some(username), startIndex, maxResults)
+      val cards = CardService.getCards(Some(user.userName), startIndex, maxResults)
       val result = Json.toJson(cards)
       Ok(result)
     }
@@ -52,9 +52,9 @@ object CardController extends Controller with Auth {
     }.getOrElse(NotFound)
   }
 
-  def deleteCard(card_id: Int) = secured { username =>
+  def deleteCard(card_id: Int) = authenticated { user =>
     Action {
-      CardService.deleteCard(card_id, username)
+      CardService.deleteCard(card_id, user.userName)
       Ok("ok")
     }
   }
