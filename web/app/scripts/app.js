@@ -1,16 +1,12 @@
 'use strict';
 
-var kudos = angular.module('kudosApp', []);
+var kudos = angular.module('kudosApp', ['ngCookies']);
 
 kudos.config(function ($routeProvider, $httpProvider) {
 	$routeProvider
 	.when('/', {
 		templateUrl: 'views/cards.html',
 		controller: 'CardsCtrl'
-	})
-	.when('/login', {
-		templateUrl: 'views/login.html',
-		controller: 'LoginCtrl'
 	})
 	.when('/search/:query', {
 		templateUrl: 'views/cards.html',
@@ -41,9 +37,18 @@ kudos.config(function ($routeProvider, $httpProvider) {
 	});
 });
 
-kudos.controller('AppCtrl', function ($rootScope, appLoading) {
+kudos.controller('AppCtrl', function ($rootScope, appLoading, $cookieStore, $http) {
 	$rootScope.topScope = $rootScope;
 	$rootScope.$on('$routeChangeStart', function () {
 			appLoading.loading();
 	});
 })
+.controller("LoginCtrl", function($rootScope) {
+	$rootScope.topScope = $rootScope;
+	$rootScope.awesomeThings = [
+		'HTML5 Boilerplate',
+		'AngularJS',
+		'Karma',
+		{ 'Team Kudos' : ['Alex','Dana','Ellen','Kate','Michelle','Sandra','Shan'] }
+	];
+});
