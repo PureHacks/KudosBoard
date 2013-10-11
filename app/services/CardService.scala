@@ -70,9 +70,7 @@ object CardService {
         if card.id === card_id
         if (for {sender <- card.sender if sender.username === username} yield sender).exists
       } yield card
-      val result = !cardsToDelete.list.isEmpty
-      cardsToDelete.delete
-      result
+      cardsToDelete.delete > 0
     }
   }
 

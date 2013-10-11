@@ -73,6 +73,7 @@ object Authentication extends Controller {
         val username = loginRequest.username
         val password = loginRequest.password
         val auth = LDAPContext.authenticate(username, password)
+        // FIXME auth is the LDAP user info, may not be in sync with the User table
         auth match {
           case Some(user) =>
             val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
