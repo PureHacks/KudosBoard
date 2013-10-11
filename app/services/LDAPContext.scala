@@ -58,6 +58,7 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
       env.put(Context.SECURITY_PRINCIPAL, username)
       env.put(Context.SECURITY_CREDENTIALS, password)
       env.put(Context.REFERRAL, "follow") //TODO what does this do?
+      env.put(Context.SECURITY_PROTOCOL, "tls")
       env
     }
     createEnv match {
@@ -83,7 +84,7 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
     val constraints = new SearchControls()
     constraints.setSearchScope(SearchControls.SUBTREE_SCOPE)
 
-    val filterStr = s"CN=$username"
+    val filterStr = s"sAMAccountName=$username"
 
     val searchResults: Iterator[SearchResult] = ctx.search(mailStr, filterStr, constraints)
     Option(searchResults).flatMap(_.headOption).map(getUserInfo)
@@ -102,12 +103,11 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
     def readAttr(attr: String): Option[String] = getAttr(attr).map(_.replaceFirst(s"$attr: ", ""))
     val firstName = readAttr("givenname").getOrElse("")
     val lastName = readAttr("sn").getOrElse("")
-    val email = readAttr("userPrincipalName").getOrElse("")
+    val email = readAttr("mail").getOrElse("")
     val userName = email.takeWhile(_ != '@')
 
     LDAPUserInfo(userName, firstName, lastName, email)
   }
-
 
   def authenticate(username: String, password: String): Option[LDAPUserInfo] = {
     try {

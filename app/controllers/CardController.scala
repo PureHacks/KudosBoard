@@ -4,6 +4,7 @@ import play.api.mvc._
 import services._
 import play.api.libs.json._
 import models.request.AddCardRequest
+import scala.util.Try
 
 object CardController extends Controller with Auth {
 
@@ -28,9 +29,17 @@ object CardController extends Controller with Auth {
 
   def getCards = Action { request =>
     val forUsers = request.queryString.get("forUser").flatMap(_.lastOption)
-    val cards = CardService.getCards(forUsers)
+    val startIndex = request.queryString.get("startIndex").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
+    val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
+    val cards = CardService.getCards(forUsers, startIndex, maxResults)
     val result = Json.toJson(cards)
     Ok(result)
+  }
+
+  def getCardComments(id: Int) = Action { request =>
+    CardService.getCard(id).map { card =>
+      Ok(Json.toJson(card.comments))
+    }.getOrElse(NotFound)
   }
 
 }

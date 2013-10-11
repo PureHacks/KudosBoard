@@ -15,7 +15,6 @@ object CardRequest {
   implicit val format = Json.format[CardRequest]
 }
 
-
 object CardService {
 
   val db = Database.forDataSource(DB.getDataSource())
@@ -30,7 +29,7 @@ object CardService {
     }
   }
 
-  def getCards(forUser: Option[String] = None): List[view.Card] = {
+  def getCards(forUser: Option[String] = None, startIndex: Option[Int] = None, maxResults: Option[Int] = None): List[view.Card] = {
     db.withSession {
       val query = forUser match {
         case Some(username) =>
@@ -42,7 +41,10 @@ object CardService {
           }
         case None => for (card <- domain.Cards.sortBy(_.date desc)) yield card
       }
-      query.list.map(view.Card.fromDM)
+      val withStartIndex = startIndex.map(idx => query.drop(idx)).getOrElse(query)
+      val withMaxResults = maxResults.map(rows => withStartIndex.take(rows)).getOrElse(withStartIndex)
+
+      withMaxResults.list.map(view.Card.fromDM)
     }
   }
 
@@ -55,6 +57,24 @@ object CardService {
       domain.Recipients.insertAll(recipients: _*)
       val tags = request.message.split(" ").filter(_.startsWith("#")).map(domain.Tag(card_id, _))
       domain.Tags.insertAll(tags: _*)
+      sendNotification(card_id)
+    }
+  }
+
+  private def mailMessage(senders: String, url: String): String =
+    s"Props to you! You have received Kudos from $senders. You can see it <a href='$url'>here</a>."
+
+
+  def sendNotification(card_id: Int) = {
+    getCard(card_id) map { card =>
+      val senders = card.senders.map(_.email)
+      val appRoot = current.configuration.getString("appRoot").getOrElse("")
+      val url = s"$appRoot/card/$card_id"
+      val subject = "Props to you!"
+      val message = mailMessage(senders.mkString(", "), url)
+      val recipients = card.recipients.map(_.email)
+      println(s"$recipients: $message")
+      EmailNotification.send(recipients, senders, subject, message)
     }
   }
 

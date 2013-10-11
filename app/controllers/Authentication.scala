@@ -5,6 +5,7 @@ import services.requests.LoginRequest
 import services.{UserService, LDAPContext}
 import play.api.libs.json.Json
 import scala.util.Try
+import play.api.libs.Crypto
 
 trait Auth extends Controller {
 
@@ -14,8 +15,9 @@ trait Auth extends Controller {
 
   def getUsername(request: RequestHeader): Option[String] = {
     for {
-      userCookie <- request.cookies.get("user")
-      cookieJson <- Try(Json.parse(userCookie.value)).toOption
+      userEncCookie <- request.cookies.get("user")
+      userCookie = Crypto.decryptAES(userEncCookie.value)
+      cookieJson <- Try(Json.parse(userCookie)).toOption
       username <- (cookieJson \ "userName").asOpt[String]
     } yield username
   }
@@ -33,7 +35,6 @@ trait Auth extends Controller {
     }
   }
 
-
   private def withTicket(ticket: String)(produceResult: => Result): Result =
     isValid(ticket) match {
       case valid => if (valid) produceResult else fail(s"provided ticket $ticket is invalid")
@@ -45,14 +46,17 @@ trait Auth extends Controller {
 
 object Authentication extends Controller {
 
+  private val userCookieName = "user"
+
   def mockLogin = Action(parse.json) { implicit request =>
     request.body.asOpt[LoginRequest] match {
       case Some(loginRequest) =>
         val username = loginRequest.username
         UserService.getUser(username) match {
           case Some(user) =>
-            val cookie = Cookie("user", Json.toJson(user).toString)
-            Ok("ok").withCookies(cookie)
+            val encryptedSession = Crypto.encryptAES(Json.toJson(user).toString)
+            val session = Cookie("user", encryptedSession)
+            Ok("ok").withCookies(session)
           case None =>
             Unauthorized("Authentication failed")
         }
@@ -66,19 +70,22 @@ object Authentication extends Controller {
       case Some(loginRequest) =>
         val username = loginRequest.username
         val password = loginRequest.password
-        //val auth = LDAPContext.searchContext.authenticate(username, password)
         val auth = LDAPContext.authenticate(username, password)
         auth match {
-          case Some(userInfo) =>
-            val cookieValue = Json.toJson(userInfo).toString()
-            val userCookie = Cookie("username", cookieValue)
-            Ok("ok").withCookies(userCookie)
+          case Some(user) =>
+            val encryptedUserCookie = Crypto.encryptAES(Json.toJson(user).toString)
+            val session = Cookie("user", encryptedUserCookie)
+            Ok("ok").withCookies(session)
           case None =>
             Unauthorized("Authentication failed")
         }
       case None =>
         BadRequest
     }
+  }
 
+  def logout = Action {
+    val cookiesToDiscard = DiscardingCookie(userCookieName)
+    Ok("ok").discardingCookies(cookiesToDiscard)
   }
 }
