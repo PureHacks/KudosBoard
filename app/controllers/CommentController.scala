@@ -5,7 +5,7 @@ import services._
 import play.api.libs.json._
 import models.request._
 
-object CommentController extends Controller with Auth {
+object CommentController extends Controller with Authentication {
 
   def get(id: Int) = Action {
     CardService.getComment(id) match {
@@ -16,11 +16,11 @@ object CommentController extends Controller with Auth {
     }
   }
 
-  def add(card_id: Int) = secured { username =>
+  def add(card_id: Int) = authenticated { user =>
     Action(parse.json) { request =>
       request.body.asOpt[AddCommentRequest] match {
         case Some(addCommentRequest) =>
-          CardService.addComment(card_id, username, addCommentRequest)
+          CardService.addComment(card_id, user.userName, addCommentRequest)
           Ok("ok")
         case None =>
           BadRequest
