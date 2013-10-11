@@ -19,4 +19,5 @@ web/dist
 web/.tmp
 web/.sass-cache
 web/app/bower_components
+web/components
 conf/nurun.conf

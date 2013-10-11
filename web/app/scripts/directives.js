@@ -4,8 +4,13 @@ kudos.directive("handleUsersQuery", function () {
 		// @scope is the current containing scope
 		// @attrs is Angular instance of current element attributes
 		element.typeahead({
-			name: "test",
-			local: ["item1","item2","item3"]
+			name: "users",
+			prefetch: {
+				url: api.url() + "users",
+				ttl: 0
+				//ttl: 604800000,	// in milliseconds, cache data for 7 days
+			},
+			limit: 15
 		});
 	};
 });

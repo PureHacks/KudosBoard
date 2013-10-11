@@ -1,17 +1,18 @@
 'use strict';
 
-kudos.controller('CardsCtrl', function ($scope, appLoading) {
+kudos.controller('CardsCtrl', function ($scope, appLoading, utils) {
 	api.cards().done(function (response) {
+		//var updatedResponse = utils.usernameToFullname(response);
 		$scope.cards = response;
 		$scope.$apply();
 
-        console.log(response);
+		console.log(response);
 
-        appLoading.ready();
+		appLoading.ready();
 	});
 })
 
-.controller('CreateCardCtrl', function ($rootScope, $scope, $http, appLoading) {
+.controller('CreateCardCtrl', function ($rootScope, $scope, $http, appLoading, $cookieStore) {
 	$rootScope.viewName = "create-card";
     appLoading.ready();
 
@@ -19,7 +20,7 @@ kudos.controller('CardsCtrl', function ($scope, appLoading) {
 		card.date = new Date().getTime();
 		// remove this line when implementing multi-sender input
 		card.senders = "shan.du";
-		console.log("$scope=",$scope," $rootScope=",$rootScope," card=",card);
+
         $http({
             method : 'POST',
             url : api.url() + "create/card",
