@@ -2,6 +2,7 @@ package services
 
 import org.apache.commons.mail._
 import play.api.Play.current
+import models.domain.User
 
 object EmailNotification {
 
@@ -38,19 +39,17 @@ object EmailNotification {
 		}
 	}
 
-
-  private def mailMessage(senders: String, url: String): String =
-    s"Props to you! You have received Kudos from $senders. You can see it <a href='$url'>here</a>."
-
+	private def mailMessage(senders: String, url: String, recipient: User): String =
+	   	s"Hi ${recipient.firstName}! Props to you! You have received Kudos from $senders. You can see it <a href='$url'>here</a>."
 
   def sendNotification(card_id: Int) = {
     CardService.getCard(card_id) map { card =>
       val senders = card.senders.map(_.email)
       val appRoot = current.configuration.getString("appRoot").getOrElse("")
       card.recipients foreach { recipient =>
-        val url = s"$appRoot/#/user/${recipient.userName}"
-        val subject = "Props to you!"
-        val message = mailMessage(senders.mkString(", "), url)
+        val url = s"$appRoot/"
+        val subject = s"Props to ${recipient.firstName} ${recipient.lastName}!"
+        val message = mailMessage(senders.mkString(", "), url, recipient)
         println(s"$recipient: $message")
         EmailNotification.send(senders, List(recipient.email), subject, message)
       }
