@@ -17,11 +17,14 @@ case class Card( id: Option[Int],
 object Card {
   implicit val format = Json.format[Card]
 
-  def fromDM(card: domain.Card): Card = {
+  implicit def fromDM(card: domain.Card): Card = {
     import Database.threadLocalSession
     services.CardService.db.withSession {
-      val commentsQuery = for (comment <- domain.Comments if comment.card_id === card.id) yield comment
-      val comments = commentsQuery.list.map(Comment.fromDM)
+      val commentsQuery = for {
+        comment <- domain.Comments
+        if comment.card_id === card.id
+      } yield comment
+      val comments = commentsQuery.elements.map(Comment.fromDM).toList
       val coauthors = for {
         author <- domain.CoAuthors if author.card_id === card.id
         user <- author.user
@@ -36,9 +39,12 @@ object Card {
         user <- recipient.user
       } yield user
       val recipients = recipientsQuery.list
-      val tags = for (tag <- domain.Tags if tag.card_id === card.id) yield tag
+      val tagsQuery = for {
+        tag <- domain.Tags if tag.card_id === card.id
+      } yield tag
+      val tags = tagsQuery.elements.map(_.text).toList
 
-      Card(card.id, recipients, senders, card.date, card.message, tags.list.map(_.text), comments)
+      Card(card.id, recipients, senders, card.date, card.message, tags, comments)
     }
   }
 }

@@ -14,9 +14,19 @@ object UserService {
   def ldapSync() {
     db.withSession {
       val usersInfo = LDAPContext.searchContext.findAll()
-      for( u <- usersInfo) {
-        val user = User(u.userName, u.email, u.firstName, u.lastName)
-        Try(Users.insert(user))
+      usersInfo foreach { u =>
+
+        val domainUser = for {
+          user <- Users
+          if user.username === u.userName
+        } yield user.firstname ~ user.lastname ~ user.email
+        domainUser.firstOption match {
+          case None =>
+            val user = User(u.userName, u.email, u.firstName, u.lastName)
+            Try(Users.insert(user))
+          case Some(_) =>
+            domainUser.update((u.firstName, u.lastName, u.email))
+        }
       }
     }
   }
@@ -38,4 +48,5 @@ object UserService {
       users.list
     }
   }
+
 }

@@ -1,4 +1,4 @@
-package services.requests
+package models.request
 
 import play.api.libs.json._
 

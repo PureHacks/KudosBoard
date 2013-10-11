@@ -1,50 +1,44 @@
 package controllers
 
 import play.api.mvc._
-import services.requests.LoginRequest
 import services.{UserService, LDAPContext}
 import play.api.libs.json.Json
 import scala.util.Try
 import play.api.libs.Crypto
+import models.request.LoginRequest
 
-trait Auth extends Controller {
+trait Authentication extends Controller {
+  import models.domain.User
 
   final def fail(reason: String) = {
     Unauthorized("must be authenticated")
   }
 
-  def getUsername(request: RequestHeader): Option[String] = {
+  def getUser(request: RequestHeader): Option[User] = {
     for {
       userEncCookie <- request.cookies.get("user")
       userCookie = Crypto.decryptAES(userEncCookie.value)
       cookieJson <- Try(Json.parse(userCookie)).toOption
-      username <- (cookieJson \ "userName").asOpt[String]
-    } yield username
+      user <- cookieJson.asOpt[User]
+    } yield user 
   }
 
-  final def secured[A](action: String => Action[A]) = {
+  final def authenticated[A](action: User => Action[A]) = {
 
     Security.Authenticated(
-      getUsername,
+      getUser,
       _ => fail("no ticket found")) {
-      username => Action(action(username).parser) {
-        request => withTicket(username) {
-          action(username)(request)
-        }
+      user =>
+        val userAction = action(user) 
+        Action(userAction.parser) {
+        request => userAction(request)
       }
     }
   }
 
-  private def withTicket(ticket: String)(produceResult: => Result): Result =
-    isValid(ticket) match {
-      case valid => if (valid) produceResult else fail(s"provided ticket $ticket is invalid")
-    }
-
-  def isValid(ticket: String): Boolean = true
-
 }
 
-object Authentication extends Controller {
+object AuthController extends Controller {
 
   private val sessionCookieName = "session"
   private val usernameCookie = "username"

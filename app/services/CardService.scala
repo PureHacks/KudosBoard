@@ -1,6 +1,5 @@
 package services
 
-import play.api.libs.json._
 import scala.slick.driver.MySQLDriver.simple._
 import play.api.db.DB
 import play.api.Play.current
@@ -8,12 +7,6 @@ import Database.threadLocalSession
 import models._
 import models.request._
 import org.joda.time.DateTime
-
-case class CardRequest(id: Int)
-
-object CardRequest {
-  implicit val format = Json.format[CardRequest]
-}
 
 object CardService {
 

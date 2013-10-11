@@ -12,7 +12,7 @@ case class Comment( id: Option[Int],
 object Comment {
   implicit val format = Json.format[Comment]
 
-  def fromDM(dm: models.domain.Comment): Comment = {
+  implicit def fromDM(dm: models.domain.Comment): Comment = {
     import dm._
     Comment(id, card_id, author, date, message)
   }

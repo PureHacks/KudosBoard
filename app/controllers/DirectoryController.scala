@@ -2,11 +2,8 @@ package controllers
 
 import play.api.mvc._
 import play.api.libs.json.Json
-import play.api.data._
-import play.api.data.Forms._
 import services.LDAPContext
 import services.EmailNotification
-import services.requests.LoginRequest
 
 object DirectoryController extends Controller {
 
