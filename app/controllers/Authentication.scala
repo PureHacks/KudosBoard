@@ -16,7 +16,7 @@ trait Authentication extends Controller {
 
   def getUser(request: RequestHeader): Option[User] = {
     for {
-      userEncCookie <- request.cookies.get("user")
+      userEncCookie <- request.cookies.get(AuthController.sessionCookieName)
       userCookie = Crypto.decryptAES(userEncCookie.value)
       cookieJson <- Try(Json.parse(userCookie)).toOption
       user <- cookieJson.asOpt[User]
@@ -40,8 +40,8 @@ trait Authentication extends Controller {
 
 object AuthController extends Controller {
 
-  private val sessionCookieName = "session"
-  private val usernameCookie = "username"
+  val sessionCookieName = "session"
+  val usernameCookie = "username"
 
   def mockLogin = Action(parse.json) { implicit request =>
     request.body.asOpt[LoginRequest] match {
@@ -69,11 +69,16 @@ object AuthController extends Controller {
         val auth = LDAPContext.authenticate(username, password)
         // FIXME auth is the LDAP user info, may not be in sync with the User table
         auth match {
-          case Some(user) =>
-            val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
-            val session = Cookie(sessionCookieName, sessionCookie, httpOnly = true)
-            val username = Cookie(usernameCookie, user.userName, httpOnly = false)
-            Ok("ok").withCookies(session, username)
+          case Some(ldapUserInfo) =>
+            UserService.getUser(ldapUserInfo.userName) match {
+              case Some(user) =>
+                val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
+                val session = Cookie(sessionCookieName, sessionCookie, httpOnly = true)
+                val username = Cookie(usernameCookie, user.userName, httpOnly = false)
+                Ok("ok").withCookies(session, username)
+              case None =>
+                Unauthorized("Unknown user, not in last LDAP sync")
+            }
           case None =>
             Unauthorized("Authentication failed")
         }
