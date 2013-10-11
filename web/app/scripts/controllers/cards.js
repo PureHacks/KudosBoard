@@ -26,9 +26,6 @@ kudos.controller('CardsCtrl', function ($scope, appLoading, utils) {
 	});
 	
 	$scope.createCard = function(card) {
-		//var data = {};
-		//data[card.senders[0]] = card;
-		//console.log("data=",data);
 		$http({
 			method : 'PUT',
 			url : api.url() + "card",
@@ -38,6 +35,7 @@ kudos.controller('CardsCtrl', function ($scope, appLoading, utils) {
 			window.location.href = "/props/";
 		}).error(function(error) {
 			console.log('create card error, error=',error);
+			window.location.href = "/props/login";
 		});
 	};
 	

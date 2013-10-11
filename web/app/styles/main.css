@@ -605,9 +605,9 @@ pre {
 .col-xs-8,
 .col-xs-9,
 .col-xs-10,
-#login .login-section,
 .col-xs-11,
 .col-xs-12,
+#login .login-section,
 #navigation .controls,
 #navigation .filters,
 .cards .card-wrapper,
@@ -675,7 +675,6 @@ pre {
 .col-xs-8,
 .col-xs-9,
 .col-xs-10,
-#login .login-section,
 .col-xs-11 {
   float: left; }
 
@@ -706,13 +705,13 @@ pre {
 .col-xs-9 {
   width: 75%; }
 
-.col-xs-10, #login .login-section {
+.col-xs-10 {
   width: 83.33333%; }
 
 .col-xs-11 {
   width: 91.66667%; }
 
-.col-xs-12, #navigation .controls, #navigation .filters, .cards .card-wrapper, .create .create-form {
+.col-xs-12, #login .login-section, #navigation .controls, #navigation .filters, .cards .card-wrapper, .create .create-form {
   width: 100%; }
 
 @media (min-width: 768px) {
@@ -6496,14 +6495,17 @@ ul {
       opacity: 1; }
   #navigation .filters {
     background-color: white;
-    color: #848589; }
+    color: #848589;
+    margin-top: 20px; }
     #navigation .filters .search {
       margin: 0;
-      width: 50%; }
+      width: 70%; }
     #navigation .filters .sort {
-      margin: 0;
-      width: 30%; }
+      margin: 0; }
 
+@media (max-width: 768px) {
+  #navigation .filters {
+    margin-top: 0; } }
 .create-card #navigation {
   display: none; }
 

@@ -82,8 +82,7 @@ ul {
 	margin:0 auto;
 	
 	.login-section {
-		@extend .col-xs-10;
-		@extend .col-xs-offset-2;
+		@extend .col-xs-12;
 		@extend .col-sm-6;
 		@extend .col-sm-offset-3;
 		@extend .col-md-4;
@@ -126,7 +125,7 @@ ul {
 						&:hover { color:#fff; opacity: 1; }
         }
     }
-
+		
     .filters {
         @extend .col-xs-12;
         @extend .col-sm-6;
@@ -134,19 +133,25 @@ ul {
         @extend .col-lg-6;
         background-color: $white;
         color: $darkGray;
+				margin-top:20px;
 
         .search {
             @extend .pull-left;
             margin: 0;
-						width: 50%;
+						width:70%;
         }
 
         .sort {
             @extend .pull-right;
             margin: 0;
-            width: 30%
         }
     }
+}
+
+@media (max-width:768px) { 
+	#navigation {
+		.filters { margin-top:0; }
+	}
 }
 
 .create-card {
