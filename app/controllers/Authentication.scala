@@ -46,7 +46,7 @@ trait Auth extends Controller {
 
 object Authentication extends Controller {
 
-  private val sessionCookieName = "user"
+  private val sessionCookieName = "session"
   private val usernameCookie = "username"
 
   def mockLogin = Action(parse.json) { implicit request =>
@@ -55,9 +55,10 @@ object Authentication extends Controller {
         val username = loginRequest.username
         UserService.getUser(username) match {
           case Some(user) =>
-            val encryptedSession = Crypto.encryptAES(Json.toJson(user).toString)
-            val session = Cookie(sessionCookieName, encryptedSession)
-            Ok("ok").withCookies(session)
+            val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
+            val session = Cookie(sessionCookieName, sessionCookie)
+            val username = Cookie(usernameCookie, user.userName, httpOnly = false)
+            Ok("ok").withCookies(session, username)
           case None =>
             Unauthorized("Authentication failed")
         }
@@ -74,8 +75,8 @@ object Authentication extends Controller {
         val auth = LDAPContext.authenticate(username, password)
         auth match {
           case Some(user) =>
-            val encryptedUserCookie = Crypto.encryptAES(Json.toJson(user).toString)
-            val session = Cookie(sessionCookieName, encryptedUserCookie, httpOnly = true)
+            val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
+            val session = Cookie(sessionCookieName, sessionCookie, httpOnly = true)
             val username = Cookie(usernameCookie, user.userName, httpOnly = false)
             Ok("ok").withCookies(session, username)
           case None =>

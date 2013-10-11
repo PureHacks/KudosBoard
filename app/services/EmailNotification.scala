@@ -52,10 +52,8 @@ object EmailNotification {
         val subject = "Props to you!"
         val message = mailMessage(senders.mkString(", "), url)
         println(s"$recipient: $message")
-        EmailNotification.send(List(recipient.email), senders, subject, message)
+        EmailNotification.send(senders, List(recipient.email), subject, message)
       }
-
-
     }
   }
 }
