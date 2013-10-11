@@ -74,8 +74,9 @@ object Authentication extends Controller {
         auth match {
           case Some(user) =>
             val encryptedUserCookie = Crypto.encryptAES(Json.toJson(user).toString)
-            val session = Cookie("user", encryptedUserCookie)
-            Ok("ok").withCookies(session)
+            val session = Cookie("user", encryptedUserCookie, httpOnly = true)
+            val username = Cookie("username", user.userName, httpOnly = false)
+            Ok("ok").withCookies(session, username)
           case None =>
             Unauthorized("Authentication failed")
         }
