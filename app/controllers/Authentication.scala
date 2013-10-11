@@ -46,7 +46,8 @@ trait Auth extends Controller {
 
 object Authentication extends Controller {
 
-  private val userCookieName = "user"
+  private val sessionCookieName = "user"
+  private val usernameCookie = "username"
 
   def mockLogin = Action(parse.json) { implicit request =>
     request.body.asOpt[LoginRequest] match {
@@ -55,7 +56,7 @@ object Authentication extends Controller {
         UserService.getUser(username) match {
           case Some(user) =>
             val encryptedSession = Crypto.encryptAES(Json.toJson(user).toString)
-            val session = Cookie("user", encryptedSession)
+            val session = Cookie(sessionCookieName, encryptedSession)
             Ok("ok").withCookies(session)
           case None =>
             Unauthorized("Authentication failed")
@@ -74,8 +75,8 @@ object Authentication extends Controller {
         auth match {
           case Some(user) =>
             val encryptedUserCookie = Crypto.encryptAES(Json.toJson(user).toString)
-            val session = Cookie("user", encryptedUserCookie, httpOnly = true)
-            val username = Cookie("username", user.userName, httpOnly = false)
+            val session = Cookie(sessionCookieName, encryptedUserCookie, httpOnly = true)
+            val username = Cookie(usernameCookie, user.userName, httpOnly = false)
             Ok("ok").withCookies(session, username)
           case None =>
             Unauthorized("Authentication failed")
@@ -86,7 +87,7 @@ object Authentication extends Controller {
   }
 
   def logout = Action {
-    val cookiesToDiscard = DiscardingCookie(userCookieName)
+    val cookiesToDiscard = DiscardingCookie(sessionCookieName, usernameCookie)
     Ok("ok").discardingCookies(cookiesToDiscard)
   }
 }
