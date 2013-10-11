@@ -57,6 +57,8 @@ object CardService {
       domain.Recipients.insertAll(recipients: _*)
       val tags = request.message.split(" ").filter(_.startsWith("#")).map(domain.Tag(card_id, _))
       domain.Tags.insertAll(tags: _*)
+      val coAuthors = request.senders.map(domain.CoAuthor(card_id, _))
+      domain.CoAuthors.insertAll(coAuthors: _*)
       EmailNotification.sendNotification(card_id)
     }
   }
