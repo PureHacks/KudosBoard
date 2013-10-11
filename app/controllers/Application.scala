@@ -7,10 +7,6 @@ import services.CardService
 
 object Application extends Controller {
 
-  def index = Action {
-    val cards = CardService.getCards()
-    val result = Json.toJson(cards)
-    Ok(result)
-  }
+  def index = CardController.getCards
 
 }

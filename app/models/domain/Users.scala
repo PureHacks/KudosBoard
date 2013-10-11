@@ -20,8 +20,9 @@ object Users extends Table[User]("user") {
 
   def * = username ~ email ~ firstname ~ lastname <> (User(_,_,_,_), User.unapply)
 
-  def cards = for {recipient <- Recipients
-                   if recipient.username === username
-                   card <- recipient.card
-              } yield card
+  def cards = for {
+      recipient <- Recipients
+      if recipient.username === username
+      card <- recipient.card
+    } yield card
 }

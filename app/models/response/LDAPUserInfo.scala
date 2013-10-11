@@ -1,4 +1,4 @@
-package services.responses
+package models.response
 
 import play.api.libs.json._
 

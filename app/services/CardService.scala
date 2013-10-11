@@ -1,6 +1,5 @@
 package services
 
-import play.api.libs.json._
 import scala.slick.driver.MySQLDriver.simple._
 import play.api.db.DB
 import play.api.Play.current
@@ -8,12 +7,6 @@ import Database.threadLocalSession
 import models._
 import models.request._
 import org.joda.time.DateTime
-
-case class CardRequest(id: Int)
-
-object CardRequest {
-  implicit val format = Json.format[CardRequest]
-}
 
 object CardService {
 
@@ -35,11 +28,11 @@ object CardService {
         case Some(username) =>
           for { recipient <- domain.Recipients
                 if recipient.username === username
-                card <- recipient.card.sortBy(_.date desc)
+                card <- recipient.card.sortBy(_.id desc)
           } yield {
             card
           }
-        case None => for (card <- domain.Cards.sortBy(_.date desc)) yield card
+        case None => for (card <- domain.Cards.sortBy(_.id desc)) yield card
       }
       val withStartIndex = startIndex.map(idx => query.drop(idx)).getOrElse(query)
       val withMaxResults = maxResults.map(rows => withStartIndex.take(rows)).getOrElse(withStartIndex)
@@ -70,9 +63,7 @@ object CardService {
         if card.id === card_id
         if (for {sender <- card.sender if sender.username === username} yield sender).exists
       } yield card
-      val result = !cardsToDelete.list.isEmpty
-      cardsToDelete.delete
-      result
+      cardsToDelete.delete > 0
     }
   }
 

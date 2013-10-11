@@ -2,7 +2,7 @@ package services
 
 import javax.naming.{NamingEnumeration, Context, AuthenticationException}
 import javax.naming.directory.{SearchResult, InitialDirContext, SearchControls}
-import services.responses.LDAPUserInfo
+import models.response.LDAPUserInfo
 import models.domain.User
 
 import play.api.Play.current
