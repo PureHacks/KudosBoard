@@ -1,7 +1,5 @@
 package models.request
 
-import models.domain
-import org.joda.time.DateTime
 import play.api.libs.json.Json
 
 case class AddCardRequest( recipients: Seq[String],

@@ -42,4 +42,10 @@ object CardController extends Controller with Auth {
     }.getOrElse(NotFound)
   }
 
+  def deleteCard(card_id: Int) = secured { username =>
+    Action {
+      CardService.deleteCard(card_id, username)
+      Ok("ok")
+    }
+  }
 }

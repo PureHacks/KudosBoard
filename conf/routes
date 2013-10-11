@@ -10,6 +10,7 @@ GET     /cards                                          controllers.CardControll
 GET     /card/:id                                       controllers.CardController.getCard(id: Int)
 GET     /card/:id/comments                              controllers.CardController.getCardComments(id: Int)
 PUT     /card                                           controllers.CardController.addCard
+DELETE  /card/:id                                       controllers.CardController.deleteCard(id: Int)
 
 # COMMENTS
 GET     /comment/:id                                    controllers.CommentController.get(id: Int)
@@ -35,4 +36,4 @@ POST    /logout                                         controllers.Authenticati
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
 
 # EMAIL NOTIFICATION
-GET		/email/sendto/:email							controllers.DirectoryController.sendNotification(email: String)
+POST	/email/sendto/:email							controllers.DirectoryController.sendNotification(email: String)
