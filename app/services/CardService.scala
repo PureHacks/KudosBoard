@@ -40,11 +40,11 @@ object CardService {
         case Some(username) =>
           for { recipient <- domain.Recipients
                 if recipient.username === username
-                card <- recipient.card.sortBy(_.id desc)
+                card <- recipient.card.sortBy(_.date desc)
           } yield {
             card
           }
-        case None => for (card <- domain.Cards.sortBy(_.id desc)) yield card
+        case None => for (card <- domain.Cards.sortBy(_.date desc)) yield card
       }
       val withStartIndex = startIndex.map(idx => query.drop(idx)).getOrElse(query)
       val withMaxResults = maxResults.map(rows => withStartIndex.take(rows)).getOrElse(withStartIndex)
