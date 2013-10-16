@@ -2,6 +2,7 @@ package models.domain
 
 import scala.slick.driver.MySQLDriver.simple._
 import play.api.libs.json.Json
+import scala.slick.lifted.ForeignKeyAction._
 
 case class Recipient( card_id: Int,
                       recipient: String)
@@ -18,6 +19,6 @@ object Recipients extends Table[Recipient]("recipient") {
 
   def pk = primaryKey("recipient_PK", (username, card_id))
 
-  def card = foreignKey("card_FK", card_id, Cards)(_.id)
+  def card = foreignKey("card_FK", card_id, Cards)(_.id, onDelete = Cascade)
   def user = foreignKey("user_FK", username, Users)(_.username)
 }

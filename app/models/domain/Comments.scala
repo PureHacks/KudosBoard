@@ -4,6 +4,7 @@ import scala.slick.driver.MySQLDriver.simple._
 import play.api.libs.json.Json
 import org.joda.time.DateTime
 import mappers.DateTimeMapper._
+import scala.slick.lifted.ForeignKeyAction._
 
 case class Comment( id: Option[Int],
                     card_id: Int,
@@ -23,5 +24,5 @@ object Comments extends Table[Comment]("comment") {
   def message = column[String]("message")
   def * = id.? ~ card_id ~ author ~ date ~ message <> (Comment(_,_,_,_,_), Comment.unapply)
 
-  def card = foreignKey("CARD_FK", card_id, Cards)(_.id)
+  def card = foreignKey("CARD_FK", card_id, Cards)(_.id, onDelete = Cascade)
 }

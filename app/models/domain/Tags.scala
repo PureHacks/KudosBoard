@@ -1,6 +1,7 @@
 package models.domain
 
 import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.ForeignKeyAction._
 import play.api.libs.json.Json
 
 case class Tag( card_id: Int,
@@ -15,5 +16,5 @@ object Tags extends Table[Tag]("tag") {
   def text = column[String]("text")
   def * = card_id ~ text <> (Tag(_,_), Tag.unapply)
 
-  def card = foreignKey("tag_card_FK", card_id, Cards)(_.id)
+  def card = foreignKey("tag_card_FK", card_id, Cards)(_.id, onDelete = Cascade)
 }

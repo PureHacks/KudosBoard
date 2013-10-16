@@ -6,12 +6,18 @@ import play.api.libs.json.Json
 import scala.util.Try
 import play.api.libs.Crypto
 import models.request.LoginRequest
+import models.domain.User
+import scala.concurrent.Future
 
-trait Authentication extends Controller {
-  import models.domain.User
+class AuthenticatedRequest[A](val user: User, request: Request[A]) extends WrappedRequest[A](request)
 
-  final def fail(reason: String) = {
-    Unauthorized("must be authenticated")
+object Authenticated extends ActionBuilder[AuthenticatedRequest] {
+  def invokeBlock[A](request: Request[A], block: (AuthenticatedRequest[A]) => Future[SimpleResult]) = {
+    getUser(request).map { user =>
+      block(new AuthenticatedRequest(user, request))
+    } getOrElse {
+      Future.successful(Results.Unauthorized)
+    }
   }
 
   def getUser(request: RequestHeader): Option[User] = {
@@ -20,71 +26,50 @@ trait Authentication extends Controller {
       userCookie = Crypto.decryptAES(userEncCookie.value)
       cookieJson <- Try(Json.parse(userCookie)).toOption
       user <- cookieJson.asOpt[User]
-    } yield user 
+    } yield user
   }
-
-  final def authenticated[A](action: User => Action[A]) = {
-
-    Security.Authenticated(
-      getUser,
-      _ => fail("no ticket found")) {
-      user =>
-        val userAction = action(user) 
-        Action(userAction.parser) {
-        request => userAction(request)
-      }
-    }
-  }
-
 }
 
 object AuthController extends Controller {
+  import utils.FormatJsError._
 
   val sessionCookieName = "session"
   val usernameCookie = "username"
 
   def mockLogin = Action(parse.json) { implicit request =>
-    request.body.asOpt[LoginRequest] match {
-      case Some(loginRequest) =>
-        val username = loginRequest.username
-        UserService.getUser(username) match {
-          case Some(user) =>
-            val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
-            val session = Cookie(sessionCookieName, sessionCookie)
-            val username = Cookie(usernameCookie, user.userName, httpOnly = false)
-            Ok("ok").withCookies(session, username)
-          case None =>
-            Unauthorized("Authentication failed")
-        }
-      case None =>
-        BadRequest
-    }
+    request.body.validate[LoginRequest].map { loginRequest =>
+      val username = loginRequest.username
+      UserService.getUser(username) match {
+        case Some(user) =>
+          val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
+          val session = Cookie(sessionCookieName, sessionCookie)
+          val username = Cookie(usernameCookie, user.userName, httpOnly = false)
+          Ok("ok").withCookies(session, username)
+        case None =>
+          Unauthorized("Authentication failed")
+      }
+    }.recoverTotal(jsErr => BadRequest(jsErr.toString))
   }
 
   def login = Action(parse.json) { implicit request =>
-    request.body.asOpt[LoginRequest] match {
-      case Some(loginRequest) =>
-        val username = loginRequest.username
-        val password = loginRequest.password
-        val auth = LDAPContext.authenticate(username, password)
-        // FIXME auth is the LDAP user info, may not be in sync with the User table
-        auth match {
-          case Some(ldapUserInfo) =>
-            UserService.getUser(ldapUserInfo.userName) match {
-              case Some(user) =>
-                val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
-                val session = Cookie(sessionCookieName, sessionCookie, httpOnly = true)
-                val username = Cookie(usernameCookie, user.userName, httpOnly = false)
-                Ok("ok").withCookies(session, username)
-              case None =>
-                Unauthorized("Unknown user, not in last LDAP sync")
-            }
-          case None =>
-            Unauthorized("Authentication failed")
-        }
-      case None =>
-        BadRequest
-    }
+    request.body.validate[LoginRequest].map { loginRequest =>
+      val username = loginRequest.username
+      val password = loginRequest.password
+      LDAPContext.authenticate(username, password) match {
+        case Some(ldapUserInfo) =>
+          UserService.getUser(ldapUserInfo.userName) match {
+            case Some(user) =>
+              val sessionCookie = Crypto.encryptAES(Json.toJson(user).toString)
+              val session = Cookie(sessionCookieName, sessionCookie, httpOnly = true)
+              val username = Cookie(usernameCookie, user.userName, httpOnly = false)
+              Ok("ok").withCookies(session, username)
+            case None =>
+              Unauthorized("Unknown user, not in last LDAP sync")
+          }
+        case None =>
+          Unauthorized("Authentication failed")
+      }
+    }.recoverTotal(jsErr => BadRequest(Json.toJson(jsErr)))
   }
 
   def logout = Action {

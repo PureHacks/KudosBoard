@@ -7,10 +7,22 @@ import Database.threadLocalSession
 import models._
 import models.request._
 import org.joda.time.DateTime
+import models.domain.{Cards, Tags}
+
 
 object CardService {
 
+  type CardQuery = Query[Cards.type, domain.Card]
+
+  val emptyQuery = for { card <- Cards if 0 == 1} yield card
+
   val db = Database.forDataSource(DB.getDataSource())
+
+  implicit def toView(q: CardQuery): List[view.Card] = {
+    db.withSession {
+      q.elements.map(view.Card.fromDM).toList
+    }
+  }
 
   def getCard(id: Int): Option[view.Card] = {
     db.withSession {
@@ -22,7 +34,7 @@ object CardService {
     }
   }
 
-  def getCards(forUser: Option[String] = None, startIndex: Option[Int] = None, maxResults: Option[Int] = None): List[view.Card] = {
+  def getCards(forUser: Option[String] = None, startIndex: Option[Int] = None, maxResults: Option[Int] = None): CardQuery = {
     db.withSession {
       val query = forUser match {
         case Some(username) =>
@@ -37,7 +49,7 @@ object CardService {
       val withStartIndex = startIndex.map(idx => query.drop(idx)).getOrElse(query)
       val withMaxResults = maxResults.map(rows => withStartIndex.take(rows)).getOrElse(withStartIndex)
 
-      withMaxResults.list.map(view.Card.fromDM)
+      withMaxResults
     }
   }
 
@@ -80,6 +92,54 @@ object CardService {
       val now = DateTime.now
       val comment = models.domain.Comment(None, card_id, author, now, message)
       domain.Comments.insert(comment)
+    }
+  }
+
+  def getCardsByTag(tagText: String): CardQuery = {
+    db.withSession {
+      for {
+        tag <- Tags
+        if tag.text === tagText
+        card <- tag.card
+      } yield card
+    }
+  }
+
+  def searchByTag(searchTag: String): CardQuery = {
+    db.withSession {
+      for {
+        tag <- Tags
+        if tag.text.startsWith(searchTag)
+        card <- tag.card
+      } yield card
+    }
+  }
+
+  def smartSearch(terms: List[String]): CardQuery = {
+    if (terms.isEmpty)
+      emptyQuery
+    else {
+      val qs = terms.map(smartSearch)
+      qs foreach (q => println(q.selectStatement))
+      qs.reduce(_ union _)
+    }
+  }
+
+  def smartSearch(term: String): CardQuery = {
+    if (term.startsWith("#")) {
+      getCardsByTag(term)
+    } else {
+      val matchSender = for {
+        card <- Cards
+        sender <- card.sender
+        if sender.firstname.startsWith(term) || sender.lastname.startsWith(term)
+      } yield card
+      val matchRecipient = for {
+        card <- Cards
+        recipient <- card.recipients
+        if recipient.firstname.startsWith(term) || recipient.lastname.startsWith(term)
+      } yield card
+      matchSender union matchRecipient
     }
   }
 

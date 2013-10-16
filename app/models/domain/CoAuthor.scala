@@ -2,6 +2,7 @@ package models.domain
 
 import play.api.libs.json._
 import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.ForeignKeyAction._
 
 case class CoAuthor( card_id: Int,
                      author: String)
@@ -17,7 +18,7 @@ object CoAuthors extends Table[(CoAuthor)]("coauthor") {
 
   def pk = primaryKey("coauthors_PK", (card_id, author))
 
-  def card = foreignKey("coauthor_card_FK", card_id, Cards)(_.id)
+  def card = foreignKey("coauthor_card_FK", card_id, Cards)(_.id, onDelete = Cascade)
   def user = foreignKey("coauthor_user_FK", author, Users)(_.username)
 }
 

@@ -12,6 +12,7 @@ GET     /card/:id/comments                              controllers.CardControll
 PUT     /card                                           controllers.CardController.addCard
 DELETE  /card/:id                                       controllers.CardController.deleteCard(id: Int)
 GET     /cards/myCards                                  controllers.CardController.getMyCards
+GET     /cards/search                                   controllers.CardController.search
 
 # COMMENTS
 GET     /comment/:id                                    controllers.CommentController.get(id: Int)
