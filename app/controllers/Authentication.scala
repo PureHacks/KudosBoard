@@ -73,7 +73,9 @@ object AuthController extends Controller {
   }
 
   def logout = Action {
-    val cookiesToDiscard = DiscardingCookie(sessionCookieName, usernameCookie)
-    Ok("ok").discardingCookies(cookiesToDiscard)
+    val cookiesToDiscard = Seq(
+      DiscardingCookie(sessionCookieName),
+      DiscardingCookie(usernameCookie))
+    Ok("ok").discardingCookies(cookiesToDiscard: _*)
   }
 }
