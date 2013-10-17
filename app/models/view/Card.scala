@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 import play.api.libs.json._
 import models._
 import scala.slick.driver.MySQLDriver.simple._
-import models.domain.Cards
+import models.domain.DAO
 
 case class Card( id: Option[Int],
                  recipients: List[domain.User],
@@ -21,26 +21,26 @@ object Card {
     import Database.threadLocalSession
     services.CardService.db.withSession {
       val commentsQuery = for {
-        comment <- domain.Comments
+        comment <- DAO.comments
         if comment.card_id === card.id
       } yield comment
       val comments = commentsQuery.elements.map(Comment.fromDM).toList
       val coauthors = for {
-        author <- domain.CoAuthors if author.card_id === card.id
+        author <- DAO.coAuthors if author.card_id === card.id
         user <- author.user
       } yield user
       val sender = for {
-        c <- Cards if c.id === card.id
+        c <- DAO.cards if c.id === card.id
         s <- c.sender
       } yield s
       val senders = (sender union coauthors).list
       val recipientsQuery = for {
-        recipient <- domain.Recipients if recipient.card_id === card.id
+        recipient <- DAO.recipients if recipient.card_id === card.id
         user <- recipient.user
       } yield user
       val recipients = recipientsQuery.list
       val tagsQuery = for {
-        tag <- domain.Tags if tag.card_id === card.id
+        tag <- DAO.tags if tag.card_id === card.id
       } yield tag
       val tags = tagsQuery.elements.map(_.text).toList
 

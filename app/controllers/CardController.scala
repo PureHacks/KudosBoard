@@ -29,10 +29,14 @@ object CardController extends Controller with Authentication {
   }
 
   def getCards = Action { request =>
-    val forUsers = request.queryString.get("forUser").flatMap(_.lastOption)
+    val forUsers = request.queryString.get("forUser").getOrElse(Seq())
+    val tags = request.queryString.get("tag").getOrElse(Seq())
     val startIndex = request.queryString.get("startIndex").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
     val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
-    val cards: List[Card] = CardService.getCards(forUsers, startIndex, maxResults)
+    val searchTerms = request.queryString.get("searchTerm").getOrElse(Seq()).toList
+    val sortBy = request.queryString.get("sortBy").flatMap(_.lastOption).getOrElse("date")
+    val sortDir = request.queryString.get("sortDir").flatMap(_.lastOption).getOrElse("desc")
+    val cards: List[Card] = CardService.getCards(forUsers, startIndex, maxResults, tags, searchTerms)
     val result = Json.toJson(cards)
     Ok(result)
   }
@@ -40,9 +44,16 @@ object CardController extends Controller with Authentication {
   def getMyCards = Authenticated { request =>
     val startIndex = request.queryString.get("startIndex").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
     val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
-    val cards: List[Card] = CardService.getCards(Some(request.user.userName), startIndex, maxResults)
+    val sortBy = request.queryString.get("sortBy").flatMap(_.lastOption).getOrElse("date")
+    val sortDir = request.queryString.get("sortDir").flatMap(_.lastOption).getOrElse("desc")
+    val cards: List[Card] = CardService.getCards(Seq(request.user.userName), startIndex, maxResults)
     val result = Json.toJson(cards)
     Ok(result)
+  }
+
+  def getByTag(tag: String) = Action { request =>
+    val cards: List[Card] = CardService.getCardsByTags(Seq(tag))
+    Ok(Json.toJson(cards))
   }
 
   def getCardComments(id: Int) = Action { request =>
@@ -51,11 +62,9 @@ object CardController extends Controller with Authentication {
     }.getOrElse(NotFound)
   }
 
-  def deleteCard(card_id: Int) = authenticated { user =>
-    Action {
-      CardService.deleteCard(card_id, user.userName)
-      Ok("ok")
-    }
+  def deleteCard(card_id: Int) = Authenticated { request =>
+    CardService.deleteCard(card_id, request.user.userName)
+    Ok("ok")
   }
 
   def search = Action { request =>

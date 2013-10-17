@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                                               controllers.Application.index
+GET     /search/:searchTerm                             controllers.Application.smartSearch(searchTerm)
 
 # CARDS
 GET     /cards                                          controllers.CardController.getCards
@@ -13,6 +14,7 @@ PUT     /card                                           controllers.CardControll
 DELETE  /card/:id                                       controllers.CardController.deleteCard(id: Int)
 GET     /cards/myCards                                  controllers.CardController.getMyCards
 GET     /cards/search                                   controllers.CardController.search
+GET     /cards/tag/:tag                                 controllers.CardController.getByTag(tag)
 
 # COMMENTS
 GET     /comment/:id                                    controllers.CommentController.get(id: Int)
@@ -21,9 +23,13 @@ PUT     /comment/:card_id                               controllers.CommentContr
 # USERS
 GET     /user/:username                                 controllers.UserController.getUser(username: String)
 GET     /users                                          controllers.DirectoryController.getAll
-GET     /users/:firstNamePrefix                         controllers.UserController.getUsers(firstNamePrefix: String, lastNamePrefix = "")
-GET     /users/:firstNamePrefix/:lastNamePrefix         controllers.UserController.getUsers(firstNamePrefix: String, lastNamePrefix: String)
+GET     /users/:usernamePrefix                          controllers.UserController.searchUsername(usernamePrefix: String)
+GET     /users/:firstNamePrefix/:lastNamePrefix         controllers.UserController.searchNames(firstNamePrefix: String, lastNamePrefix: String)
 POST    /users/ldapSync                                 controllers.UserController.ldapSync
+
+# TAGS
+GET     /tags                                           controllers.Application.searchTags(prefix = "")
+GET     /tags/:prefix                                   controllers.Application.searchTags(prefix)
 
 # DDL
 GET     /ddl                                            controllers.DDL.initDb

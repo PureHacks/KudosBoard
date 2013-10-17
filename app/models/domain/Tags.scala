@@ -11,10 +11,10 @@ object Tag {
   implicit val format = Json.format[Tag]
 }
 
-object Tags extends Table[Tag]("tag") {
+class Tags extends Table[Tag]("tag") {
   def card_id = column[Int]("card_id")
   def text = column[String]("text")
   def * = card_id ~ text <> (Tag(_,_), Tag.unapply)
 
-  def card = foreignKey("tag_card_FK", card_id, Cards)(_.id, onDelete = Cascade)
+  def card = foreignKey("tag_card_FK", card_id, DAO.cards)(_.id, onDelete = Cascade)
 }

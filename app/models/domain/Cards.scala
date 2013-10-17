@@ -14,7 +14,7 @@ object Card {
   implicit val format = Json.format[Card]
 }
 
-object Cards extends Table[Card]("card") {
+class Cards extends Table[Card]("card") {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def sender_id = column[String]("sender")
   def date = column[DateTime]("date")
@@ -23,15 +23,19 @@ object Cards extends Table[Card]("card") {
   def * = id.? ~ sender_id ~ date ~ message <> (Card(_,_,_,_), Card.unapply)
   def autoInc = id.? ~ sender_id ~ date ~ message <> (Card(_,_,_,_), Card.unapply) returning id
 
-  def sender = foreignKey("card_sender_FK", sender_id, Users)(_.username)
+  def sender = foreignKey("card_sender_FK", sender_id, DAO.users)(_.username)
 
-  def comments = for (comment <- Comments if comment.card_id === id) yield comment
+  def comments = for (comment <- DAO.comments if comment.card_id === id) yield comment
+
   def recipients = for {
-    recipient <- Recipients if recipient.card_id === id
+    recipient <- DAO.recipients if recipient.card_id === id
     user <- recipient.user
   } yield user
+
   def coAuthors = for {
-    coAuthor <- CoAuthors if coAuthor.card_id === id
+    coAuthor <- DAO.coAuthors if coAuthor.card_id === id
     user <- coAuthor.user
   } yield user
+
+  def tags = for (tag <- DAO.tags if tag.card_id === id) yield tag
 }

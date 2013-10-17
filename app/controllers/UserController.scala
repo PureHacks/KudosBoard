@@ -13,8 +13,13 @@ object UserController extends Controller {
     }
   }
 
-  def getUsers(firstNamePrefix: String, lastNamePrefix: String) = Action {
-    val users = UserService.searchUsers(firstNamePrefix, lastNamePrefix)
+  def searchNames(firstNamePrefix: String, lastNamePrefix: String) = Action {
+    val users = UserService.searchNames(firstNamePrefix, lastNamePrefix)
+    Ok(Json.toJson(users))
+  }
+
+  def searchUsername(usernamePrefix: String) = Action {
+    val users = UserService.searchUsername(usernamePrefix)
     Ok(Json.toJson(users))
   }
 

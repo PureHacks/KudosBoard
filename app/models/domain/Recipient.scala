@@ -11,7 +11,7 @@ object Recipient{
   implicit val format = Json.format[Recipient]
 }
 
-object Recipients extends Table[Recipient]("recipient") {
+class Recipients extends Table[Recipient]("recipient") {
   def card_id = column[Int]("card_id")
   def username = column[String]("username")
 
@@ -19,6 +19,6 @@ object Recipients extends Table[Recipient]("recipient") {
 
   def pk = primaryKey("recipient_PK", (username, card_id))
 
-  def card = foreignKey("card_FK", card_id, Cards)(_.id, onDelete = Cascade)
-  def user = foreignKey("user_FK", username, Users)(_.username)
+  def card = foreignKey("card_FK", card_id, DAO.cards)(_.id, onDelete = Cascade)
+  def user = foreignKey("user_FK", username, DAO.users)(_.username)
 }

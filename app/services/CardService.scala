@@ -7,14 +7,14 @@ import Database.threadLocalSession
 import models._
 import models.request._
 import org.joda.time.DateTime
-import models.domain.{Cards, Tags}
+import models.domain.{Cards, Tags, DAO}
 
 
 object CardService {
 
-  type CardQuery = Query[Cards.type, domain.Card]
+  type CardQuery = Query[Cards, domain.Card]
 
-  val emptyQuery = for { card <- Cards if 0 == 1} yield card
+  val emptyQuery = for { card <- DAO.cards if 0 == 1} yield card
 
   val db = Database.forDataSource(DB.getDataSource())
 
@@ -27,27 +27,55 @@ object CardService {
   def getCard(id: Int): Option[view.Card] = {
     db.withSession {
       val results =
-        for( card <- domain.Cards
+        for( card <- DAO.cards
              if card.id === id)
         yield card
       results.firstOption.map(view.Card.fromDM)
     }
   }
 
-  def getCards(forUser: Option[String] = None, startIndex: Option[Int] = None, maxResults: Option[Int] = None): CardQuery = {
+  /**
+   *
+   * @param forUsers Cards for any of the users in the sequence
+   * @param startIndex
+   * @param maxResults
+   * @param tags Cards with one of the given tags
+   * @param searchTerms
+   * @return All cards matching all of the above criteria
+   */
+  def getCards(forUsers: Seq[String] = Seq(),
+               startIndex: Option[Int] = None,
+               maxResults: Option[Int] = None,
+               tags: Seq[String] = Seq(),
+               searchTerms: Seq[String] = Seq()): CardQuery = {
     db.withSession {
-      val query = forUser match {
-        case Some(username) =>
-          for { recipient <- domain.Recipients
-                if recipient.username === username
-                card <- recipient.card.sortBy(_.date desc)
-          } yield {
-            card
-          }
-        case None => for (card <- domain.Cards.sortBy(_.date desc)) yield card
+      val bySearchTerms = searchTerms.isEmpty match {
+        case false =>
+          smartSearch(searchTerms.toList).sortBy(_.date desc)
+        case true =>
+          Query(DAO.cards).sortBy(_.date desc)
       }
-      val withStartIndex = startIndex.map(idx => query.drop(idx)).getOrElse(query)
-      val withMaxResults = maxResults.map(rows => withStartIndex.take(rows)).getOrElse(withStartIndex)
+      val byUser = forUsers.isEmpty match {
+        case false =>
+          for {
+            card <- bySearchTerms
+            if (for (r <- card.recipients if r.username inSetBind forUsers) yield r).exists
+          } yield card
+        case true =>
+          bySearchTerms
+      }
+      val byUserAndTag = tags.isEmpty match {
+        case false =>
+          for {
+            card <- byUser
+            tag <- card.tags
+            if tag.text inSetBind tags
+          } yield card
+        case true =>
+          byUser
+      }
+      val withStartIndex = startIndex.map(idx => for (c <- byUserAndTag.drop(idx)) yield c).getOrElse(byUserAndTag)
+      val withMaxResults = maxResults.map(rows => for (c <- withStartIndex.take(rows)) yield c).getOrElse(withStartIndex)
 
       withMaxResults
     }
@@ -57,13 +85,13 @@ object CardService {
     db.withSession {
       val now = DateTime.now
       val card = domain.Card(None, sender, now, request.message)
-      val card_id = domain.Cards.autoInc.insert(card)
+      val card_id = DAO.cards.autoInc.insert(card)
       val recipients = request.recipients.map(domain.Recipient(card_id, _))
-      domain.Recipients.insertAll(recipients: _*)
-      val tags = request.message.split(" ").filter(_.startsWith("#")).map(domain.Tag(card_id, _))
-      domain.Tags.insertAll(tags: _*)
+      DAO.recipients.insertAll(recipients: _*)
+      val tags = request.message.split(" ").filter(_.startsWith("#")).map(tagWord => domain.Tag(card_id, tagWord.takeWhile(_.isLetterOrDigit)))
+      DAO.tags.insertAll(tags: _*)
       val coAuthors = request.senders.map(domain.CoAuthor(card_id, _))
-      domain.CoAuthors.insertAll(coAuthors: _*)
+      DAO.coAuthors.insertAll(coAuthors: _*)
       EmailNotification.sendNotification(card_id)
     }
   }
@@ -71,7 +99,7 @@ object CardService {
   def deleteCard(card_id: Int, username: String): Boolean = {
     db.withSession {
       val cardsToDelete = for {
-        card <- domain.Cards
+        card <- DAO.cards
         if card.id === card_id
         if (for {sender <- card.sender if sender.username === username} yield sender).exists
       } yield card
@@ -81,7 +109,7 @@ object CardService {
 
   def getComment(comment_id: Int): Option[domain.Comment] = {
     db.withSession {
-      val query = for (comment <- domain.Comments if comment.id === comment_id) yield comment
+      val query = for (comment <- DAO.comments if comment.id === comment_id) yield comment
       query.firstOption
     }
   }
@@ -90,29 +118,26 @@ object CardService {
     db.withSession {
       import request._
       val now = DateTime.now
-      val comment = models.domain.Comment(None, card_id, author, now, message)
-      domain.Comments.insert(comment)
+      val comment = domain.Comment(None, card_id, author, now, message)
+      DAO.comments.insert(comment)
     }
   }
 
-  def getCardsByTag(tagText: String): CardQuery = {
+  def getCardsByTags(tags: Seq[String]): CardQuery = {
     db.withSession {
       for {
-        tag <- Tags
-        if tag.text === tagText
+        tag <- DAO.tags
+        if tag.text inSetBind tags
         card <- tag.card
       } yield card
     }
   }
 
   def searchByTag(searchTag: String): CardQuery = {
-    db.withSession {
-      for {
-        tag <- Tags
-        if tag.text.startsWith(searchTag)
-        card <- tag.card
-      } yield card
-    }
+    for {
+      card <- DAO.cards
+      if (for (tag <- card.tags if tag.text startsWith searchTag) yield tag).exists
+    } yield card
   }
 
   def smartSearch(terms: List[String]): CardQuery = {
@@ -120,26 +145,28 @@ object CardService {
       emptyQuery
     else {
       val qs = terms.map(smartSearch)
-      qs foreach (q => println(q.selectStatement))
       qs.reduce(_ union _)
     }
   }
 
   def smartSearch(term: String): CardQuery = {
-    if (term.startsWith("#")) {
-      getCardsByTag(term)
-    } else {
-      val matchSender = for {
-        card <- Cards
-        sender <- card.sender
-        if sender.firstname.startsWith(term) || sender.lastname.startsWith(term)
-      } yield card
-      val matchRecipient = for {
-        card <- Cards
-        recipient <- card.recipients
-        if recipient.firstname.startsWith(term) || recipient.lastname.startsWith(term)
-      } yield card
-      matchSender union matchRecipient
+    searchByTag(term) union searchByUsername(term)
+  }
+
+  def searchByUsername(usernamePrefix: String): CardQuery = {
+    for {
+      card <- DAO.cards
+      if (for (recipient <- card.recipients if recipient.username startsWith usernamePrefix) yield recipient).exists
+    } yield card
+  }
+
+  def searchTags(prefix: String): List[String] = {
+    db.withSession {
+      val tags = for {
+        tag <- DAO.tags
+        if tag.text startsWith prefix
+      } yield tag
+      tags.groupBy(_.text).map(_._1).list
     }
   }
 
