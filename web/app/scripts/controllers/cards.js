@@ -1,6 +1,6 @@
 'use strict';
 
-kudos.controller('CardsCtrl', function ($scope, appLoading, utils) {
+kudos.controller('CardsCtrl', function ($scope, appLoading) {
 	api.cards().done(function (response) {
 		$scope.cards = response;
 		$scope.$apply();
@@ -12,7 +12,6 @@ kudos.controller('CardsCtrl', function ($scope, appLoading, utils) {
 .controller('CreateCardCtrl', function ($rootScope, $scope, $http, appLoading, $cookieStore) {
 	$rootScope.viewName = "create-card";
 	appLoading.ready();	
-	
 	
 	var currentUser = getCookie("username");
 	

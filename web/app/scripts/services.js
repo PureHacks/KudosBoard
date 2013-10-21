@@ -11,20 +11,3 @@ kudos.factory('appLoading', function ($rootScope) {
 	};
 });
 
-kudos.factory('utils', function ($rootScope) {
-	return {
-		usernameToFullname : function(obj) {
-			var convert = function(username) {
-				return username.replace("."," ").replace(/\w\S*/g, function(txt) {
-					return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-				});
-			};
-
-			if (typeof(obj) === "string") {
-				return convert(obj);
-			}
-			
-			return "";
-		}
-	};
-});

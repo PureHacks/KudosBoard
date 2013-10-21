@@ -19,9 +19,6 @@ var api = (function($) {
 				return null;
 			}
 		},
-		login: function(username, password) {
-
-		},
 		cards: function() {
 			return this.request("cards", {});
 		},

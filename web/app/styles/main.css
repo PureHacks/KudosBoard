@@ -616,14 +616,14 @@ pre {
 .col-sm-2,
 .col-sm-3,
 .col-sm-4,
+#navigation .filters,
 .col-sm-5,
 .col-sm-6,
 #login .login-section,
-#navigation .controls,
-#navigation .filters,
 .cards .card-wrapper,
 .col-sm-7,
 .col-sm-8,
+#navigation .controls,
 .col-sm-9,
 .col-sm-10,
 .col-sm-11,
@@ -633,13 +633,13 @@ pre {
 .col-md-3,
 .col-md-4,
 #login .login-section,
+#navigation .filters,
 .cards .card-wrapper,
 .col-md-5,
 .col-md-6,
-#navigation .controls,
-#navigation .filters,
 .col-md-7,
 .col-md-8,
+#navigation .controls,
 .col-md-9,
 .col-md-10,
 .col-md-11,
@@ -649,13 +649,13 @@ pre {
 .col-lg-3,
 .col-lg-4,
 #login .login-section,
+#navigation .filters,
 .cards .card-wrapper,
 .col-lg-5,
 .col-lg-6,
-#navigation .controls,
-#navigation .filters,
 .col-lg-7,
 .col-lg-8,
+#navigation .controls,
 .col-lg-9,
 .col-lg-10,
 .col-lg-11,
@@ -722,14 +722,14 @@ pre {
   .col-sm-2,
   .col-sm-3,
   .col-sm-4,
+  #navigation .filters,
   .col-sm-5,
   .col-sm-6,
   #login .login-section,
-  #navigation .controls,
-  #navigation .filters,
   .cards .card-wrapper,
   .col-sm-7,
   .col-sm-8,
+  #navigation .controls,
   .col-sm-9,
   .col-sm-10,
   .col-sm-11 {
@@ -744,19 +744,19 @@ pre {
   .col-sm-3 {
     width: 25%; }
 
-  .col-sm-4 {
+  .col-sm-4, #navigation .filters {
     width: 33.33333%; }
 
   .col-sm-5 {
     width: 41.66667%; }
 
-  .col-sm-6, #login .login-section, #navigation .controls, #navigation .filters, .cards .card-wrapper {
+  .col-sm-6, #login .login-section, .cards .card-wrapper {
     width: 50%; }
 
   .col-sm-7 {
     width: 58.33333%; }
 
-  .col-sm-8 {
+  .col-sm-8, #navigation .controls {
     width: 66.66667%; }
 
   .col-sm-9 {
@@ -878,13 +878,13 @@ pre {
   .col-md-3,
   .col-md-4,
   #login .login-section,
+  #navigation .filters,
   .cards .card-wrapper,
   .col-md-5,
   .col-md-6,
-  #navigation .controls,
-  #navigation .filters,
   .col-md-7,
   .col-md-8,
+  #navigation .controls,
   .col-md-9,
   .col-md-10,
   .col-md-11 {
@@ -899,19 +899,19 @@ pre {
   .col-md-3 {
     width: 25%; }
 
-  .col-md-4, #login .login-section, .cards .card-wrapper {
+  .col-md-4, #login .login-section, #navigation .filters, .cards .card-wrapper {
     width: 33.33333%; }
 
   .col-md-5 {
     width: 41.66667%; }
 
-  .col-md-6, #navigation .controls, #navigation .filters {
+  .col-md-6 {
     width: 50%; }
 
   .col-md-7 {
     width: 58.33333%; }
 
-  .col-md-8 {
+  .col-md-8, #navigation .controls {
     width: 66.66667%; }
 
   .col-md-9 {
@@ -1042,13 +1042,13 @@ pre {
   .col-lg-3,
   .col-lg-4,
   #login .login-section,
+  #navigation .filters,
   .cards .card-wrapper,
   .col-lg-5,
   .col-lg-6,
-  #navigation .controls,
-  #navigation .filters,
   .col-lg-7,
   .col-lg-8,
+  #navigation .controls,
   .col-lg-9,
   .col-lg-10,
   .col-lg-11 {
@@ -1063,19 +1063,19 @@ pre {
   .col-lg-3 {
     width: 25%; }
 
-  .col-lg-4, #login .login-section, .cards .card-wrapper {
+  .col-lg-4, #login .login-section, #navigation .filters, .cards .card-wrapper {
     width: 33.33333%; }
 
   .col-lg-5 {
     width: 41.66667%; }
 
-  .col-lg-6, #navigation .controls, #navigation .filters {
+  .col-lg-6 {
     width: 50%; }
 
   .col-lg-7 {
     width: 58.33333%; }
 
-  .col-lg-8 {
+  .col-lg-8, #navigation .controls {
     width: 66.66667%; }
 
   .col-lg-9 {
@@ -6505,7 +6505,8 @@ ul {
 
 @media (max-width: 768px) {
   #navigation .filters {
-    margin-top: 0; } }
+    margin-top: 0;
+    padding-left: 0; } }
 .create-card #navigation {
   display: none; }
 
