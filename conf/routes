@@ -7,14 +7,12 @@ GET     /                                               controllers.Application.
 GET     /search/:searchTerm                             controllers.Application.smartSearch(searchTerm)
 
 # CARDS
-GET     /cards                                          controllers.CardController.getCards
+GET     /cards                                          controllers.CardController.getCards(startIndex: Int ?= 1, maxResults: Option[Int])
 GET     /card/:id                                       controllers.CardController.getCard(id: Int)
 GET     /card/:id/comments                              controllers.CardController.getCardComments(id: Int)
 PUT     /card                                           controllers.CardController.addCard
 DELETE  /card/:id                                       controllers.CardController.deleteCard(id: Int)
 GET     /cards/myCards                                  controllers.CardController.getMyCards
-GET     /cards/search                                   controllers.CardController.search
-GET     /cards/tag/:tag                                 controllers.CardController.getByTag(tag)
 
 # COMMENTS
 GET     /comment/:id                                    controllers.CommentController.get(id: Int)
@@ -28,20 +26,14 @@ GET     /users/:firstNamePrefix/:lastNamePrefix         controllers.UserControll
 POST    /users/ldapSync                                 controllers.UserController.ldapSync
 
 # TAGS
-GET     /tags                                           controllers.Application.searchTags(prefix = "")
-GET     /tags/:prefix                                   controllers.Application.searchTags(prefix)
+GET     /tags                                           controllers.Application.searchTags
 
 # DDL
 GET     /ddl                                            controllers.DDL.initDb
 
 # AUTHORIZATION
-GET     /directory                                      controllers.DirectoryController.getAll
-GET     /directory/email/:email                         controllers.DirectoryController.searchEmail(email: String)
 POST    /login                                          controllers.AuthController.login
 POST    /logout                                         controllers.AuthController.logout
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
-
-# EMAIL NOTIFICATION
-POST	/email/sendto/:email							controllers.DirectoryController.sendNotification(email: String)

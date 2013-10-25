@@ -4,13 +4,10 @@ import play.api.mvc._
 
 import play.api.libs.json.Json
 import services.{UserService, CardService}
-import services.CardService._
-import models.domain.User
-import models.view.Card
 
 object Application extends Controller {
 
-  def index = CardController.getCards
+  def index = CardController.getCards(startIndex = 1, maxResults = None)
 
   def smartSearch(searchTerm: String) = Action { request =>
     val usernames = UserService.searchUsername(searchTerm).map(_.userName)
@@ -22,8 +19,9 @@ object Application extends Controller {
     Ok(result)
   }
 
-  def searchTags(prefix: String) = Action {
-    val tags: List[String] = CardService.searchTags(prefix)
+  def searchTags = Action { request =>
+    val prefixes = request.queryString.get("startsWith")
+    val tags: List[String] = CardService.searchTags(prefixes)
     Ok(Json.toJson(tags))
   }
 }

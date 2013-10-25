@@ -28,11 +28,11 @@ object CardController extends Controller with Authentication {
     }
   }
 
-  def getCards = Action { request =>
+  def getCards(startIndex: Int, maxResults: Option[Int]) = Action { request =>
     val forUsers = request.queryString.get("forUser").getOrElse(Seq())
     val tags = request.queryString.get("tag").getOrElse(Seq())
-    val startIndex = request.queryString.get("startIndex").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
-    val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
+    //val startIndex = request.queryString.get("startIndex").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
+    //val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
     val searchTerms = request.queryString.get("searchTerm").getOrElse(Seq()).toList
     val sortBy = request.queryString.get("sortBy").flatMap(_.lastOption).getOrElse("date")
     val sortDir = request.queryString.get("sortDir").flatMap(_.lastOption).getOrElse("desc")
@@ -46,7 +46,7 @@ object CardController extends Controller with Authentication {
     val maxResults = request.queryString.get("maxResults").flatMap(_.lastOption).flatMap(x => Try(x.toInt).toOption)
     val sortBy = request.queryString.get("sortBy").flatMap(_.lastOption).getOrElse("date")
     val sortDir = request.queryString.get("sortDir").flatMap(_.lastOption).getOrElse("desc")
-    val cards: List[Card] = CardService.getCards(Seq(request.user.userName), startIndex, maxResults)
+    val cards: List[Card] = CardService.getCards(Seq(request.user.userName), startIndex.getOrElse(1), maxResults)
     val result = Json.toJson(cards)
     Ok(result)
   }

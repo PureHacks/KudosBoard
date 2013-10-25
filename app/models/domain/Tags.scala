@@ -16,5 +16,7 @@ class Tags extends Table[Tag]("tag") {
   def text = column[String]("text")
   def * = card_id ~ text <> (Tag(_,_), Tag.unapply)
 
+  def pk = primaryKey("tag_PK", (card_id, text))
+
   def card = foreignKey("tag_card_FK", card_id, DAO.cards)(_.id, onDelete = Cascade)
 }

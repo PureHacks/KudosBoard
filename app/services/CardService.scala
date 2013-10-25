@@ -44,7 +44,7 @@ object CardService {
    * @return All cards matching all of the above criteria
    */
   def getCards(forUsers: Seq[String] = Seq(),
-               startIndex: Option[Int] = None,
+               startIndex: Int = 1,
                maxResults: Option[Int] = None,
                tags: Seq[String] = Seq(),
                searchTerms: Seq[String] = Seq()): CardQuery = {
@@ -74,7 +74,7 @@ object CardService {
         case true =>
           byUser
       }
-      val withStartIndex = startIndex.map(idx => for (c <- byUserAndTag.drop(idx)) yield c).getOrElse(byUserAndTag)
+      val withStartIndex = for (c <- byUserAndTag.drop((startIndex-1) max 0)) yield c
       val withMaxResults = maxResults.map(rows => for (c <- withStartIndex.take(rows)) yield c).getOrElse(withStartIndex)
 
       withMaxResults
@@ -160,14 +160,25 @@ object CardService {
     } yield card
   }
 
-  def searchTags(prefix: String): List[String] = {
+  def searchTags(prefixes: Option[Seq[String]]): List[String] = {
     db.withSession {
+      prefixes.filter(!_.isEmpty) match {
+        case None =>
+          (for (t <- DAO.tags) yield t).groupBy(_.text).map(_._1).list
+        case Some(tagPrefixes) =>
+          (tagPrefixes.map(searchTagsQuery) reduce (_ union _)).list
+      }
+    }
+  }
+
+  def searchTags(prefix: String): List[String] = searchTags(Some(Seq(prefix)))
+
+  def searchTagsQuery(prefix: String): Query[_, String] = {
       val tags = for {
         tag <- DAO.tags
         if tag.text startsWith prefix
       } yield tag
-      tags.groupBy(_.text).map(_._1).list
-    }
+      tags.groupBy(_.text).map(_._1)
   }
 
 }
