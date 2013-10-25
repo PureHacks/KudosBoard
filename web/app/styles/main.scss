@@ -111,9 +111,9 @@ ul {
     .controls {
         @extend .navbar-header;
         @extend .col-xs-12;
-        @extend .col-sm-6;
-        @extend .col-md-6;
-        @extend .col-lg-6;
+        @extend .col-sm-8;
+        @extend .col-md-8;
+        @extend .col-lg-8;
 
         .btn-default {
             border-radius: 0;
@@ -128,9 +128,9 @@ ul {
 		
     .filters {
         @extend .col-xs-12;
-        @extend .col-sm-6;
-        @extend .col-md-6;
-        @extend .col-lg-6;
+        @extend .col-sm-4;
+        @extend .col-md-4;
+        @extend .col-lg-4;
         background-color: $white;
         color: $darkGray;
 				margin-top:20px;
@@ -150,7 +150,7 @@ ul {
 
 @media (max-width:768px) { 
 	#navigation {
-		.filters { margin-top:0; }
+		.filters { margin-top:0; padding-left:0; }
 	}
 }
 

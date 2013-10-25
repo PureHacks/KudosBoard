@@ -36,6 +36,10 @@ kudos.config(function ($routeProvider, $httpProvider) {
 		templateUrl: 'views/comment.html',
 		controller: 'CommentCtrl'
 	})
+	.when('/logout', {
+		templateUrl: 'views/logout.html',
+		controller: 'LogoutCtrl'
+	})
 	.otherwise({
 		redirectTo: '/'
 	});
