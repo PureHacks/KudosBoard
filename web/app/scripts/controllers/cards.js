@@ -1,12 +1,16 @@
 'use strict';
 
-kudos.controller('CardsCtrl', function ($scope, appLoading) {
+kudos.controller('CardsCtrl', function ($scope, $location, appLoading) {
 	api.cards().done(function (response) {
 		$scope.cards = response;
 		$scope.$apply();
 		console.log("cards=",response);
 		appLoading.ready();
 	});
+
+	$scope.viewCard = function(cardId) {
+		$location.path('/card/' + cardId);
+	};
 })
 
 .controller('CreateCardCtrl', function ($rootScope, $scope, $http, appLoading, $cookieStore) {
@@ -42,8 +46,26 @@ kudos.controller('CardsCtrl', function ($scope, appLoading) {
 		console.log("cancelling");
 		window.location.href = "/props/";
 	};
-});
+})
 
+.controller('ViewCardCtrl', function ($rootScope, $scope, $routeParams, appLoading, $cookieStore) {
+	api.card($routeParams.cardId).done(function (response) {
+		$scope.card = response;
+		$scope.$apply();
+		console.log("card=", response);
+		appLoading.ready();
+	});
+})
+
+
+.controller('MyCardCtrl', function ($rootScope, $scope, appLoading, $cookieStore) {
+	api.myCards().done(function (response) {
+		$scope.card = response;
+		$scope.$apply();
+		console.log("my card=", response);
+		appLoading.ready();
+	});
+});
 
 /* I just wanna get some cookie values, Angular Y U NO cookies */
 function getCookie(c_name)

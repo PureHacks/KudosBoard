@@ -168,17 +168,21 @@ ul {
         @extend .col-sm-6;
         @extend .col-md-4;
         @extend .col-lg-4;
+
+        &.single {
+            @extend .col-sm-12;
+        }
     }
 
     .card {
         @extend .media;
-				height: 120px;
+		height: 120px;
         padding: 10px;
         color: $darkGray;
         background-color: $white;
 
         a { color: $black; }
-				.media-heading a { text-transform: capitalize; }
+		.media-heading a { text-transform: capitalize; }
     }
 
     .card-footer {
@@ -197,7 +201,9 @@ ul {
             @extend .pull-right;
             margin-top: 10px;
 						
-						a { text-transform: capitalize; }
+			a {
+                text-transform: capitalize;
+            }
         }
     }
 
@@ -208,29 +214,39 @@ ul {
 
 .create {
     @extend .row;
+    
     color: $teal;
-		margin-top:30px;
+	margin-top:30px;
 
-		legend { color:$teal; text-transform:uppercase; }
+	legend { color:$teal; text-transform:uppercase; }
 		
     .create-form {
         @extend .col-xs-12;
 				
-				.btn-cancel { position:absolute; top:-15px; right:15px; padding:3px 9px; }
-				.twitter-typeahead { 
-					display:block !important;
-					
-					.tt-hint { visibility:hidden !important; }
-					.tt-dropdown-menu { background-color:#fff; }
-				}
-				
-				.recipients { background-color:#fff !important; }
+		.btn-cancel { position:absolute; top:-15px; right:15px; padding:3px 9px; }
+		.twitter-typeahead { 
+			display:block !important;
+			
+			.tt-hint { visibility:hidden !important; }
+			.tt-dropdown-menu { background-color:#fff; }
+		}
+		
+		.recipients { background-color:#fff !important; }
     }
 
     .btn-default {
         background-color: $teal;
         border-radius: 0;
 				
-				&:hover { color:#fff; }
+		&:hover { color:#fff; }
+    }
+}
+
+.user {
+    text-align: center;
+
+    h2 {
+        color: $teal;
+        font-weight: bold;
     }
 }

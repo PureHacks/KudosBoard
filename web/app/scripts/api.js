@@ -26,14 +26,11 @@ var api = (function($) {
 			return this.request("user/" + _username, {});
 		},
 		card: function(_cardId) {
-			return this.request("card", {
-				"id": parseInt(_cardId, 10) || 0
-			});
+			_cardId = parseInt(_cardId, 10) || 0;
+			return this.request("card/" + _cardId, {});
 		},
-		cardsByUser: function(_username) {
-			return this.request("cards", {
-				"username": _username
-			});
+		myCards: function() {
+			return this.request("cards/myCards", {});
 		},
 		cardsByTag: function(_tag) {
 			return this.request("cards", {

@@ -1,7 +1,7 @@
 <ul class="cards">
-	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards">
+	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards" ng-click="viewCard(card.id)">
 		<div class="card">
-			<a class="pull-left" href="#">
+			<a class="pull-left" href="#/user/{{ card.recipients[0].userName }}">
 			  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">
 			</a>
 			<div class="media-body">
@@ -15,7 +15,7 @@
 					<i class="icon-comment icon-flip-horizontal"></i>
 				</a>
 			</p>
-			<p class="from">From <a href="#/user/{{ card.senders[0].username }}">{{ card.senders[0].firstName + " " + card.senders[0].lastName }}</a></p>
+			<p class="from">From <a href="#/user/{{ card.senders[0].userName }}">{{ card.senders[0].firstName + " " + card.senders[0].lastName }}</a></p>
 		</div>
 	</li>
 </ul>

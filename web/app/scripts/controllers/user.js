@@ -1,8 +1,7 @@
 'use strict'
 
-kudos.controller("UserCtrl", function($scope) {
-	console.log("userscope=",$scope);
-	api.user().done(function (response) {
+kudos.controller("UserCtrl", function ($scope, $routeParams, appLoading) {
+	api.user($routeParams.username).done(function (response) {
 		$scope.user = response;
 		$scope.$apply();
 		console.log("user=",response);

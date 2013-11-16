@@ -1,10 +1,5 @@
-<div class="user">
-	<img class="img-circle" src="http://placehold.it/128x128" alt="{{ user.userName }}">
-	<h2><a href="#/user/{{ user.userName }}">{{ user.firstName}} {{ user.lastName}}</a></h2>
-</div>
-
-<ul class="cards" ng-controller="MyCardCtrl">
-	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards" ng-click="viewCard(card.id)">
+<ul class="cards">
+	<li id="card-{{ card.id }}" class="card-wrapper single">
 		<div class="card">
 			<a class="pull-left" href="#/user/{{ card.recipients[0].userName }}">
 			  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">

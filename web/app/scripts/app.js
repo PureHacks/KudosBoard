@@ -21,12 +21,12 @@ kudos.config(function ($routeProvider, $httpProvider) {
 		controller: 'UserCtrl'
 	})
 	.when('/card/:cardId', {
-		controller: 'CardCtrl',
-		templateUrl: 'partials/card.html'
+		controller: 'ViewCardCtrl',
+		templateUrl: 'views/card.html'
 	})
 	.when('/card/:cardId/comment', {
 		controller: 'CardsCtrl',
-		templateUrl: 'partials/comment.html'
+		templateUrl: 'views/comment.html'
 	})
 	.when('/create/card', {
 		templateUrl: 'views/create.html',
