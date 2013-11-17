@@ -1,21 +1,27 @@
-<ul class="cards">
-	<li id="card-{{ card.id }}" class="card-wrapper single">
-		<div class="card">
-			<a class="pull-left" href="#/user/{{ card.recipients[0].userName }}">
-			  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading">Props to <a href="#/user/{{ card.recipients[0].userName }}">{{ card.recipients[0].firstName + " " + card.recipients[0].lastName }}</a> for</h4>
-				<p class="message"><a href="#/card/{{ card.id }}">{{ card.message }}</a></p>
-			</div>
-		</div>
-		<div class="card-footer">
-			<p class="comments">
+<div class="single-card">
+	<div class="card-wrapper single col-xs-12">
+		<img class="img-circle" src="http://placehold.it/128x128" alt="{{ card.recipients[0].userName }}">
+
+		<h2>Props to <a class="recipient" href="#/user/{{ card.recipients[0].userName }}">{{ card.recipients[0].firstName + " " + card.recipients[0].lastName }}</a></h2>
+
+		<blockquote>
+			<i class="icon-quote-left icon-2x icon-quote"></i>
+			<p class="message">{{ card.message }}</p>
+			<i class="icon-quote-right icon-2x pull-right icon-quote"></i>
+			<small>From <a class="sender" ng-repeat="sender in card.senders" href="#/user/{{ sender.userName }}">{{ sender.firstName + " " + sender.lastName }}</a></small>
+		</blockquote>
+
+		<div class="row">
+			<p class="card-footer backed-up col-xs-6">
 				<a href="#/comment/{{ card.id }}">
-					<i class="icon-comment icon-flip-horizontal"></i>
+					13 back this up
 				</a>
 			</p>
-			<p class="from">From <a href="#/user/{{ card.senders[0].userName }}">{{ card.senders[0].firstName + " " + card.senders[0].lastName }}</a></p>
+			<p class="card-footer back-this col-xs-6">
+				<a href="#/comment/{{ card.id }}">
+					+ back this up
+				</a>
+			</p>
 		</div>
-	</li>
-</ul>
+	</div>
+</div>

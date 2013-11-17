@@ -17,10 +17,6 @@ $lightGray: #DBDBDB;
 $teal: #44D6D8;
 
 /* Put your CSS here */
-html, body {
-  //margin: 20px;
-}
-
 body {
     background: $black;
     font-family: "Oxygen", sans-serif;
@@ -46,6 +42,7 @@ ul {
     z-index: 3;
     color: $white;
 }
+
 .app-loading-animation {
     width:60px;
     height:60px;
@@ -232,6 +229,79 @@ ul {
 
     .media-object {
         @extend .img-circle;
+    }
+}
+
+.single-card {
+    .img-circle {
+        margin-top: -64px;
+    }
+
+    .card-wrapper {
+        background-color: $white;
+        text-align: center;
+        margin-top: 75px;
+    }
+
+    h2 {
+        color: $darkGray;
+        text-transform: uppercase;
+        font-size: 20px;
+    }
+
+    /* Override the bootstrap style */
+    blockquote {
+        border-left: none;
+        text-align: left;
+        font-size: 17.5px;
+        margin-top: -45px;
+
+        small {
+            text-align: center;
+        }
+    }
+
+    .icon-quote {
+        color: $lightGray;
+    }
+
+    .icon-quote-right {
+        margin-top: -25px;
+    }
+
+    .message {
+        text-align: center;
+    }
+
+    .recipient {
+        display: block;
+        color: $teal;
+        text-transform: capitalize;
+    }
+
+    .sender {
+        color: $darkGray;
+        font-weight: bold;
+    }
+
+    .card-footer {
+        height: 50px;
+        line-height: 50px;
+        text-transform: uppercase;
+        margin: 0;
+        font-size: 1.2em;
+
+        a {
+            color: $darkGray;
+        }
+    }
+
+    .backed-up {
+        background-color: $lightGray;
+    }
+
+    .back-this {
+        background-color: $teal;
     }
 }
 

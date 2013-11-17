@@ -6604,6 +6604,51 @@ ul {
     .cards .card-footer .from a {
       text-transform: capitalize; }
 
+.single-card {
+  /* Override the bootstrap style */ }
+  .single-card .img-circle, .single-card .cards .media-object, .cards .single-card .media-object {
+    margin-top: -64px; }
+  .single-card .card-wrapper {
+    background-color: white;
+    text-align: center;
+    margin-top: 75px; }
+  .single-card h2 {
+    color: #848589;
+    text-transform: uppercase;
+    font-size: 20px; }
+  .single-card blockquote {
+    border-left: none;
+    text-align: left;
+    font-size: 17.5px;
+    margin-top: -45px; }
+    .single-card blockquote small {
+      text-align: center; }
+  .single-card .icon-quote {
+    color: #dbdbdb; }
+  .single-card .icon-quote-right {
+    margin-top: -25px; }
+  .single-card .message {
+    text-align: center; }
+  .single-card .recipient {
+    display: block;
+    color: #44d6d8;
+    text-transform: capitalize; }
+  .single-card .sender {
+    color: #848589;
+    font-weight: bold; }
+  .single-card .card-footer {
+    height: 50px;
+    line-height: 50px;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 1.2em; }
+    .single-card .card-footer a {
+      color: #848589; }
+  .single-card .backed-up {
+    background-color: #dbdbdb; }
+  .single-card .back-this {
+    background-color: #44d6d8; }
+
 .create {
   color: #44d6d8;
   margin-top: 30px; }
