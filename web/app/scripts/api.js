@@ -7,20 +7,22 @@ var api = (function($) {
 		url: function() {
 			return apiUrl;
 		},
-		request: function(_url, _arg) {
-			if (typeof _arg === "object") {
+		request: function(_url, _args) {
+			if (typeof _args === "object") {
 				return $.ajax({
 					url: apiUrl + _url,
-					//url: "/data/" + _url + ".json",
-					data: _arg,
+					data: _args,
 					dataType: "json"
 				});
 			} else {
 				return null;
 			}
 		},
-		cards: function() {
-			return this.request("cards", {});
+		cards: function(_sort) {
+			return this.request("cards", {
+				sortBy: _sort.by,
+				sortDir: _sort.direction
+			});
 		},
 		user: function(_username) {
 			return this.request("user/" + _username, {});
@@ -31,6 +33,10 @@ var api = (function($) {
 		},
 		myCards: function() {
 			return this.request("cards/myCards", {});
+		},
+		cardsByUser: function(_username) {
+			//TODO: needs a back end function for this
+			return this.cards();
 		},
 		cardsByTag: function(_tag) {
 			return this.request("cards", {

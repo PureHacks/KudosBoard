@@ -1,5 +1,5 @@
 <ul class="cards">
-	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards" ng-click="viewCard(card.id)">
+	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards" >
 		<div class="card">
 			<a class="pull-left" href="#/user/{{ card.recipients[0].userName }}">
 			  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">

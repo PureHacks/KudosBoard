@@ -1,23 +1,23 @@
 'use strict';
 
-kudos.controller('CardsCtrl', function ($scope, $location, appLoading) {
-	api.cards().done(function (response) {
+kudos.controller('CardsCtrl', function ($scope, $location, $routeParams, appLoading) {
+	var sort = {
+		by: ($routeParams.sortBy == undefined ? "date" : $routeParams.sortBy),
+		direction: ($routeParams.sortDir == undefined ? "desc" : $routeParams.sortDir)
+	}
+
+	api.cards(sort).done(function (response) {
 		$scope.cards = response;
 		$scope.$apply();
-		console.log("cards=",response);
 		appLoading.ready();
 	});
-
-	$scope.viewCard = function(cardId) {
-		$location.path('/card/' + cardId);
-	};
 })
 
-.controller('CreateCardCtrl', function ($rootScope, $scope, $http, appLoading, $cookieStore) {
+.controller('CreateCardCtrl', function ($rootScope, $scope, $http, appLoading, $cookies) {
 	$rootScope.viewName = "create-card";
 	appLoading.ready();	
 	
-	var currentUser = getCookie("username");
+	var currentUser = $cookies.username;
 	
 	api.user(currentUser).done(function(response) {
 		$scope.card = {
@@ -52,43 +52,15 @@ kudos.controller('CardsCtrl', function ($scope, $location, appLoading) {
 	api.card($routeParams.cardId).done(function (response) {
 		$scope.card = response;
 		$scope.$apply();
-		console.log("card=", response);
 		appLoading.ready();
 	});
 })
 
 
-.controller('MyCardCtrl', function ($rootScope, $scope, appLoading, $cookieStore) {
-	api.myCards().done(function (response) {
-		$scope.card = response;
+.controller('CardsByUserCtrl', function ($scope, $routeParams, appLoading) {
+	api.cards().done(function (response) {
+		$scope.cards = response;
 		$scope.$apply();
-		console.log("my card=", response);
 		appLoading.ready();
 	});
 });
-
-/* I just wanna get some cookie values, Angular Y U NO cookies */
-function getCookie(c_name)
-{
-	var c_value = document.cookie;
-	var c_start = c_value.indexOf(" " + c_name + "=");
-	if (c_start == -1)
-  {
-		c_start = c_value.indexOf(c_name + "=");
-	}
-	if (c_start == -1)
-  {
-		c_value = null;
-	}
-	else
-  {
-		c_start = c_value.indexOf("=", c_start) + 1;
-		var c_end = c_value.indexOf(";", c_start);
-		if (c_end == -1)
-		{
-			c_end = c_value.length;
-		}
-		c_value = unescape(c_value.substring(c_start,c_end));
-	}
-	return c_value;
-}

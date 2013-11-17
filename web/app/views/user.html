@@ -3,7 +3,7 @@
 	<h2><a href="#/user/{{ user.userName }}">{{ user.firstName}} {{ user.lastName}}</a></h2>
 </div>
 
-<ul class="cards" ng-controller="MyCardCtrl">
+<ul class="cards" ng-controller="CardsByUserCtrl">
 	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards" ng-click="viewCard(card.id)">
 		<div class="card">
 			<a class="pull-left" href="#/user/{{ card.recipients[0].userName }}">

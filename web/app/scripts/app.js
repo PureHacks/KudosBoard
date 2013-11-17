@@ -12,6 +12,10 @@ kudos.config(function ($routeProvider, $httpProvider) {
 		templateUrl: 'views/cards.html',
 		controller: 'CardsCtrl'
 	})
+	.when('/cards/sort/:sortBy/:sortDir', {
+		templateUrl: 'views/cards.html',
+		controller: 'CardsCtrl'
+	})
 	.when('/cards/tag/:tag', {
 		templateUrl: 'views/cards.html',
 		controller: 'CardsCtrl'
