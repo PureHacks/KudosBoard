@@ -527,27 +527,27 @@ blockquote {
     color: #999999; }
     blockquote small:before {
       content: '\2014 \00A0'; }
-  blockquote.pull-right, #navigation .filters blockquote.sort, .cards .card-footer blockquote.from {
+  blockquote.pull-right, #navigation .filters .sort .btn blockquote.caret, .cards .card-footer blockquote.from {
     padding-right: 15px;
     padding-left: 0;
     border-right: 5px solid #eeeeee;
     border-left: 0; }
-    blockquote.pull-right p, #navigation .filters blockquote.sort p, .cards .card-footer blockquote.from p,
+    blockquote.pull-right p, #navigation .filters .sort .btn blockquote.caret p, .cards .card-footer blockquote.from p,
     blockquote.pull-right small,
-    #navigation .filters blockquote.sort small,
+    #navigation .filters .sort .btn blockquote.caret small,
     .cards .card-footer blockquote.from small,
     blockquote.pull-right .small,
-    #navigation .filters blockquote.sort .small,
+    #navigation .filters .sort .btn blockquote.caret .small,
     .cards .card-footer blockquote.from .small {
       text-align: right; }
-    blockquote.pull-right small:before, #navigation .filters blockquote.sort small:before, .cards .card-footer blockquote.from small:before,
+    blockquote.pull-right small:before, #navigation .filters .sort .btn blockquote.caret small:before, .cards .card-footer blockquote.from small:before,
     blockquote.pull-right .small:before,
-    #navigation .filters blockquote.sort .small:before,
+    #navigation .filters .sort .btn blockquote.caret .small:before,
     .cards .card-footer blockquote.from .small:before {
       content: ''; }
-    blockquote.pull-right small:after, #navigation .filters blockquote.sort small:after, .cards .card-footer blockquote.from small:after,
+    blockquote.pull-right small:after, #navigation .filters .sort .btn blockquote.caret small:after, .cards .card-footer blockquote.from small:after,
     blockquote.pull-right .small:after,
-    #navigation .filters blockquote.sort .small:after,
+    #navigation .filters .sort .btn blockquote.caret .small:after,
     .cards .card-footer blockquote.from .small:after {
       content: '\00A0 \2014'; }
 
@@ -622,13 +622,13 @@ pre {
   .row:after, #login:after, #navigation:after, .cards:after, .create:after {
     clear: both; }
 
-.col-xs-12, #login .login-section, #navigation .controls, #navigation .filters, .cards .card-wrapper, .create .create-form, .col-sm-12, .cards .card-wrapper.single, .col-md-12, .col-lg-12, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-8, .col-sm-8, #navigation .controls, .col-md-8, #navigation .controls, .col-lg-8, #navigation .controls, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-6, .col-sm-6, #login .login-section, .cards .card-wrapper, .col-md-6, .col-lg-6, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-4, .col-sm-4, #navigation .filters, .col-md-4, #login .login-section, #navigation .filters, .cards .card-wrapper, .col-lg-4, #login .login-section, #navigation .filters, .cards .card-wrapper, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1 {
+.col-xs-12, #login .login-section, #navigation .controls, #navigation .filters, .cards .card-wrapper, .create .create-form, .col-sm-12, .cards .card-wrapper.single, .col-md-12, .col-lg-12, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-8, .col-sm-8, #navigation .controls, .col-md-8, #navigation .controls, .col-lg-8, #navigation .controls, .col-xs-7, #navigation .filters .search, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-6, .col-sm-6, #login .login-section, .cards .card-wrapper, .col-md-6, .col-lg-6, .col-xs-5, #navigation .filters .sort, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-4, .col-sm-4, #navigation .filters, .col-md-4, #login .login-section, #navigation .filters, .cards .card-wrapper, .col-lg-4, #login .login-section, #navigation .filters, .cards .card-wrapper, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
 
-.col-xs-12, #login .login-section, #navigation .controls, #navigation .filters, .cards .card-wrapper, .create .create-form, .col-xs-11, .col-xs-10, .col-xs-9, .col-xs-8, .col-xs-7, .col-xs-6, .col-xs-5, .col-xs-4, .col-xs-3, .col-xs-2, .col-xs-1 {
+.col-xs-12, #login .login-section, #navigation .controls, #navigation .filters, .cards .card-wrapper, .create .create-form, .col-xs-11, .col-xs-10, .col-xs-9, .col-xs-8, .col-xs-7, #navigation .filters .search, .col-xs-6, .col-xs-5, #navigation .filters .sort, .col-xs-4, .col-xs-3, .col-xs-2, .col-xs-1 {
   float: left; }
 
 .col-xs-1 {
@@ -643,13 +643,13 @@ pre {
 .col-xs-4 {
   width: 33.33333%; }
 
-.col-xs-5 {
+.col-xs-5, #navigation .filters .sort {
   width: 41.66667%; }
 
 .col-xs-6 {
   width: 50%; }
 
-.col-xs-7 {
+.col-xs-7, #navigation .filters .search {
   width: 58.33333%; }
 
 .col-xs-8 {
@@ -2624,7 +2624,7 @@ input[type="button"].btn-block {
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box; }
-  .dropdown-menu.pull-right, #navigation .filters .dropdown-menu.sort, .cards .card-footer .dropdown-menu.from {
+  .dropdown-menu.pull-right, #navigation .filters .sort .btn .dropdown-menu.caret, .cards .card-footer .dropdown-menu.from {
     right: 0;
     left: auto; }
   .dropdown-menu .divider {
@@ -2682,7 +2682,7 @@ input[type="button"].btn-block {
   top: 0;
   z-index: 990; }
 
-.pull-right > .dropdown-menu, #navigation .filters .sort > .dropdown-menu, .cards .card-footer .from > .dropdown-menu {
+.pull-right > .dropdown-menu, #navigation .filters .sort .btn .caret > .dropdown-menu, .cards .card-footer .from > .dropdown-menu {
   right: 0;
   left: auto; }
 
@@ -3302,9 +3302,9 @@ input[type="button"].btn-block {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0; }
 
-.navbar-nav.pull-right > li > .dropdown-menu, #navigation .filters .navbar-nav.sort > li > .dropdown-menu, .cards .card-footer .navbar-nav.from > li > .dropdown-menu,
+.navbar-nav.pull-right > li > .dropdown-menu, #navigation .filters .sort .btn .navbar-nav.caret > li > .dropdown-menu, .cards .card-footer .navbar-nav.from > li > .dropdown-menu,
 .navbar-nav > li > .dropdown-menu.pull-right,
-#navigation .filters .navbar-nav > li > .dropdown-menu.sort,
+#navigation .filters .sort .btn .navbar-nav > li > .dropdown-menu.caret,
 .cards .card-footer .navbar-nav > li > .dropdown-menu.from {
   left: auto;
   right: 0; }
@@ -3873,9 +3873,9 @@ a.thumbnail.active {
 .media-heading {
   margin: 0 0 5px; }
 
-.media > .pull-left, .cards .card > .pull-left, #navigation .filters .media > .search, .cards #navigation .filters .card > .search, #navigation .filters .cards .card > .search, .cards .card-footer .media > .comments, .cards .card-footer .card > .comments {
+.media > .pull-left, .cards .card > .pull-left, .cards .card-footer .media > .comments, .cards .card-footer .card > .comments {
   margin-right: 10px; }
-.media > .pull-right, .cards .card > .pull-right, #navigation .filters .media > .sort, .cards #navigation .filters .card > .sort, #navigation .filters .cards .card > .sort, .cards .card-footer .media > .from, .cards .card-footer .card > .from {
+.media > .pull-right, .cards .card > .pull-right, #navigation .filters .sort .btn .media > .caret, .cards #navigation .filters .sort .btn .card > .caret, #navigation .filters .sort .btn .cards .card > .caret, .cards .card-footer .media > .from, .cards .card-footer .card > .from {
   margin-left: 10px; }
 
 .media-list {
@@ -4638,10 +4638,10 @@ button.close {
   margin-left: auto;
   margin-right: auto; }
 
-.pull-right, #navigation .filters .sort, .cards .card-footer .from {
+.pull-right, #navigation .filters .sort .btn .caret, .cards .card-footer .from {
   float: right !important; }
 
-.pull-left, #navigation .filters .search, .cards .card-footer .comments {
+.pull-left, .cards .card-footer .comments {
   float: left !important; }
 
 .hide {
@@ -5148,20 +5148,19 @@ a [class*=" icon-"] {
     -moz-border-radius: 7px;
     border-radius: 7px; }
 
-.pull-right, #navigation .filters .sort, .cards .card-footer .from {
+.pull-right, #navigation .filters .sort .btn .caret, .cards .card-footer .from {
   float: right; }
 
-.pull-left, #navigation .filters .search, .cards .card-footer .comments {
+.pull-left, .cards .card-footer .comments {
   float: left; }
 
-[class^="icon-"].pull-left, #navigation .filters [class^="icon-"].search, .cards .card-footer [class^="icon-"].comments,
+[class^="icon-"].pull-left, .cards .card-footer [class^="icon-"].comments,
 [class*=" icon-"].pull-left,
-#navigation .filters [class*=" icon-"].search,
 .cards .card-footer [class*=" icon-"].comments {
   margin-right: .3em; }
-[class^="icon-"].pull-right, #navigation .filters [class^="icon-"].sort, .cards .card-footer [class^="icon-"].from,
+[class^="icon-"].pull-right, #navigation .filters .sort .btn [class^="icon-"].caret, .cards .card-footer [class^="icon-"].from,
 [class*=" icon-"].pull-right,
-#navigation .filters [class*=" icon-"].sort,
+#navigation .filters .sort .btn [class*=" icon-"].caret,
 .cards .card-footer [class*=" icon-"].from {
   margin-left: .3em; }
 
@@ -5213,15 +5212,12 @@ a [class*=" icon-"] {
 .nav-pills [class*=" icon-"].icon-large {
   line-height: .9em; }
 
-.btn [class^="icon-"].pull-left.icon-2x, .btn #navigation .filters [class^="icon-"].icon-2x.search, #navigation .filters .btn [class^="icon-"].icon-2x.search, .btn .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn [class^="icon-"].icon-2x.comments, .btn [class^="icon-"].pull-right.icon-2x, .btn #navigation .filters [class^="icon-"].icon-2x.sort, #navigation .filters .btn [class^="icon-"].icon-2x.sort, .btn .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn [class^="icon-"].icon-2x.from,
+.btn [class^="icon-"].pull-left.icon-2x, .btn .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn [class^="icon-"].icon-2x.comments, .btn [class^="icon-"].pull-right.icon-2x, #navigation .filters .sort .btn [class^="icon-"].icon-2x.caret, .btn .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn [class^="icon-"].icon-2x.from,
 .btn [class*=" icon-"].pull-left.icon-2x,
-.btn #navigation .filters [class*=" icon-"].icon-2x.search,
-#navigation .filters .btn [class*=" icon-"].icon-2x.search,
 .btn .cards .card-footer [class*=" icon-"].icon-2x.comments,
 .cards .card-footer .btn [class*=" icon-"].icon-2x.comments,
 .btn [class*=" icon-"].pull-right.icon-2x,
-.btn #navigation .filters [class*=" icon-"].icon-2x.sort,
-#navigation .filters .btn [class*=" icon-"].icon-2x.sort,
+#navigation .filters .sort .btn [class*=" icon-"].icon-2x.caret,
 .btn .cards .card-footer [class*=" icon-"].icon-2x.from,
 .cards .card-footer .btn [class*=" icon-"].icon-2x.from {
   margin-top: .18em; }
@@ -5229,15 +5225,12 @@ a [class*=" icon-"] {
 .btn [class*=" icon-"].icon-spin.icon-large {
   line-height: .8em; }
 
-.btn.btn-small [class^="icon-"].pull-left.icon-2x, .btn.btn-small #navigation .filters [class^="icon-"].icon-2x.search, #navigation .filters .btn.btn-small [class^="icon-"].icon-2x.search, .btn.btn-small .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn.btn-small [class^="icon-"].icon-2x.comments, .btn.btn-small [class^="icon-"].pull-right.icon-2x, .btn.btn-small #navigation .filters [class^="icon-"].icon-2x.sort, #navigation .filters .btn.btn-small [class^="icon-"].icon-2x.sort, .btn.btn-small .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn.btn-small [class^="icon-"].icon-2x.from,
+.btn.btn-small [class^="icon-"].pull-left.icon-2x, .btn.btn-small .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn.btn-small [class^="icon-"].icon-2x.comments, .btn.btn-small [class^="icon-"].pull-right.icon-2x, #navigation .filters .sort .btn.btn-small [class^="icon-"].icon-2x.caret, .btn.btn-small .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn.btn-small [class^="icon-"].icon-2x.from,
 .btn.btn-small [class*=" icon-"].pull-left.icon-2x,
-.btn.btn-small #navigation .filters [class*=" icon-"].icon-2x.search,
-#navigation .filters .btn.btn-small [class*=" icon-"].icon-2x.search,
 .btn.btn-small .cards .card-footer [class*=" icon-"].icon-2x.comments,
 .cards .card-footer .btn.btn-small [class*=" icon-"].icon-2x.comments,
 .btn.btn-small [class*=" icon-"].pull-right.icon-2x,
-.btn.btn-small #navigation .filters [class*=" icon-"].icon-2x.sort,
-#navigation .filters .btn.btn-small [class*=" icon-"].icon-2x.sort,
+#navigation .filters .sort .btn.btn-small [class*=" icon-"].icon-2x.caret,
 .btn.btn-small .cards .card-footer [class*=" icon-"].icon-2x.from,
 .cards .card-footer .btn.btn-small [class*=" icon-"].icon-2x.from {
   margin-top: .25em; }
@@ -5245,29 +5238,23 @@ a [class*=" icon-"] {
 .btn.btn-large [class^="icon-"],
 .btn.btn-large [class*=" icon-"] {
   margin-top: 0; }
-  .btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large #navigation .filters [class^="icon-"].icon-2x.search, #navigation .filters .btn.btn-large [class^="icon-"].icon-2x.search, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.comments, .btn.btn-large [class^="icon-"].pull-right.icon-2x, .btn.btn-large #navigation .filters [class^="icon-"].icon-2x.sort, #navigation .filters .btn.btn-large [class^="icon-"].icon-2x.sort, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.from,
+  .btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.comments, .btn.btn-large [class^="icon-"].pull-right.icon-2x, #navigation .filters .sort .btn.btn-large [class^="icon-"].icon-2x.caret, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.from,
   .btn.btn-large [class*=" icon-"].pull-left.icon-2x,
-  .btn.btn-large #navigation .filters [class*=" icon-"].icon-2x.search,
-  #navigation .filters .btn.btn-large [class*=" icon-"].icon-2x.search,
   .btn.btn-large .cards .card-footer [class*=" icon-"].icon-2x.comments,
   .cards .card-footer .btn.btn-large [class*=" icon-"].icon-2x.comments,
   .btn.btn-large [class*=" icon-"].pull-right.icon-2x,
-  .btn.btn-large #navigation .filters [class*=" icon-"].icon-2x.sort,
-  #navigation .filters .btn.btn-large [class*=" icon-"].icon-2x.sort,
+  #navigation .filters .sort .btn.btn-large [class*=" icon-"].icon-2x.caret,
   .btn.btn-large .cards .card-footer [class*=" icon-"].icon-2x.from,
   .cards .card-footer .btn.btn-large [class*=" icon-"].icon-2x.from {
     margin-top: .05em; }
-  .btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large #navigation .filters [class^="icon-"].icon-2x.search, #navigation .filters .btn.btn-large [class^="icon-"].icon-2x.search, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.comments,
+  .btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.comments, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.comments,
   .btn.btn-large [class*=" icon-"].pull-left.icon-2x,
-  .btn.btn-large #navigation .filters [class*=" icon-"].icon-2x.search,
-  #navigation .filters .btn.btn-large [class*=" icon-"].icon-2x.search,
   .btn.btn-large .cards .card-footer [class*=" icon-"].icon-2x.comments,
   .cards .card-footer .btn.btn-large [class*=" icon-"].icon-2x.comments {
     margin-right: .2em; }
-  .btn.btn-large [class^="icon-"].pull-right.icon-2x, .btn.btn-large #navigation .filters [class^="icon-"].icon-2x.sort, #navigation .filters .btn.btn-large [class^="icon-"].icon-2x.sort, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.from,
+  .btn.btn-large [class^="icon-"].pull-right.icon-2x, #navigation .filters .sort .btn.btn-large [class^="icon-"].icon-2x.caret, .btn.btn-large .cards .card-footer [class^="icon-"].icon-2x.from, .cards .card-footer .btn.btn-large [class^="icon-"].icon-2x.from,
   .btn.btn-large [class*=" icon-"].pull-right.icon-2x,
-  .btn.btn-large #navigation .filters [class*=" icon-"].icon-2x.sort,
-  #navigation .filters .btn.btn-large [class*=" icon-"].icon-2x.sort,
+  #navigation .filters .sort .btn.btn-large [class*=" icon-"].icon-2x.caret,
   .btn.btn-large .cards .card-footer [class*=" icon-"].icon-2x.from,
   .cards .card-footer .btn.btn-large [class*=" icon-"].icon-2x.from {
     margin-left: .2em; }
@@ -6575,16 +6562,25 @@ ul {
     background-color: white;
     color: #848589;
     margin-top: 20px; }
-    #navigation .filters .search {
-      margin: 0;
-      width: 70%; }
-    #navigation .filters .sort {
-      margin: 0; }
+    #navigation .filters .form-control {
+      background-color: #EEEEEE;
+      border-right: 0;
+      margin-left: 12px; }
+    #navigation .filters .sort .btn {
+      right: 12px;
+      width: 100%;
+      text-align: left;
+      background-color: #EEEEEE; }
+      #navigation .filters .sort .btn .caret {
+        margin-top: 7px; }
+    #navigation .filters .sort .dropdown-menu {
+      background-color: #EEEEEE;
+      left: 3px; }
 
 @media (max-width: 768px) {
   #navigation .filters {
-    margin-top: 0;
-    padding-left: 0; } }
+    margin-top: 12px;
+    margin-bottom: 12px; } }
 .create-card #navigation {
   display: none; }
 

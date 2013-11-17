@@ -96,10 +96,10 @@ ul {
 	}
 	
 	.btn-default {
-			background-color: $teal;
-			border-radius: 0;
-			opacity: 0.9;
-			&:hover { color:#fff; opacity:1; }
+		background-color: $teal;
+		border-radius: 0;
+		opacity: 0.9;
+		&:hover { color:#fff; opacity:1; }
 	}
 }
 
@@ -121,8 +121,8 @@ ul {
             text-transform: uppercase;
             background-color: $teal;
             border-color: $black;
-						opacity: 0.75;
-						&:hover { color:#fff; opacity: 1; }
+			opacity: 0.75;
+			&:hover { color:#fff; opacity: 1; }
         }
     }
 		
@@ -133,24 +133,47 @@ ul {
         @extend .col-lg-4;
         background-color: $white;
         color: $darkGray;
-				margin-top:20px;
+		margin-top:20px;
+
+        .form-control {
+            background-color: #EEEEEE;
+            border-right: 0;
+            margin-left: 12px;
+        }
 
         .search {
-            @extend .pull-left;
-            margin: 0;
-						width:70%;
+            @extend .col-xs-7;
         }
 
         .sort {
-            @extend .pull-right;
-            margin: 0;
+            @extend .col-xs-5;
+
+            .btn {
+                right: 12px;
+                width: 100%;
+                text-align: left;
+                background-color: #EEEEEE;
+
+                .caret {
+                    @extend .pull-right;
+                    margin-top: 7px;
+                }
+            }
+
+            .dropdown-menu {
+                background-color: #EEEEEE;
+                left: 3px;
+            }
         }
     }
 }
 
 @media (max-width:768px) { 
 	#navigation {
-		.filters { margin-top:0; padding-left:0; }
+		.filters {
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
 	}
 }
 
