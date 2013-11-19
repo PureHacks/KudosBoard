@@ -24,6 +24,8 @@ GET     /users                                          controllers.DirectoryCon
 GET     /users/:usernamePrefix                          controllers.UserController.searchUsername(usernamePrefix: String)
 GET     /users/:firstNamePrefix/:lastNamePrefix         controllers.UserController.searchNames(firstNamePrefix: String, lastNamePrefix: String)
 POST    /users/ldapSync                                 controllers.UserController.ldapSync
+GET     /search											controllers.DirectoryController.searchAll
+GET     /search/users									controllers.DirectoryController.searchAll
 
 # TAGS
 GET     /tags                                           controllers.Application.searchTags

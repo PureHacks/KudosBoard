@@ -19,8 +19,9 @@ object DirectoryController extends Controller {
     Ok(Json.toJson(result))
   }
 
-  def sendNotification(emailPattern: String) = Action {
-    EmailNotification.send(List(emailPattern), List(emailPattern), "You have received Props from someone","That someone is you! (for now)")
-    Ok(Json.toJson("email sent"))
+  def searchAll = Action {
+    val ldapContext = LDAPContext.searchContext
+    val result = ldapContext.searchAll().toSeq
+    Ok(Json.toJson(result))
   }
 }

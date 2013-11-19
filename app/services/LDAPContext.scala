@@ -3,6 +3,7 @@ package services
 import javax.naming.{NamingEnumeration, Context, AuthenticationException}
 import javax.naming.directory.{SearchResult, InitialDirContext, SearchControls}
 import models.response.LDAPUserInfo
+import models.response.LDAPUserInfoSearch
 import models.domain.User
 
 import play.api.Play.current
@@ -14,7 +15,7 @@ object LDAPContext {
   implicit class RichIterator[A](val it: Iterator[A]) extends AnyVal {
     def headOption: Option[A] = if (it.hasNext) Some(it.next()) else None
   }
-
+  
   def searchContext: LDAPContext = {
     val ctxt = for {
       principal <- current.configuration.getString("ldap.principal")
@@ -67,6 +68,38 @@ class LDAPContext(username: String, password: String) extends InitialDirContext 
     }
   }
 
+
+  def searchAll(): Iterator[LDAPUserInfoSearch] = typeaheadSearch("*@nurun.com")
+
+  def typeaheadSearch(emailPattern: String): Iterator[LDAPUserInfoSearch] = {
+    val constraints = new SearchControls()
+    constraints.setSearchScope(SearchControls.SUBTREE_SCOPE)
+
+    val filterStr = s"mail=$emailPattern"
+
+    Option(ctx.search(mailStr, filterStr, constraints))
+      .map(_.map(getTypeaheadInfoSearch))
+      .getOrElse(Iterator())
+  }
+
+  private def getTypeaheadInfoSearch(searchResult: SearchResult): LDAPUserInfoSearch = {
+    val dn = searchResult.getName
+    val cn = dn.replaceFirst("CN=", "")
+    val names = cn.split(" ")
+
+    val attrs = searchResult.getAttributes
+    def getAttr(attr: String) = Option(attrs.get(attr.toLowerCase)).map(_.get().asInstanceOf[String])
+    def readAttr(attr: String): Option[String] = getAttr(attr).map(_.replaceFirst(s"$attr: ", ""))
+    val firstName = readAttr("givenname").getOrElse("")
+    val lastName = readAttr("sn").getOrElse("")
+    val email = readAttr("mail").getOrElse("")
+    val userName = email.takeWhile(_ != '@')
+
+    LDAPUserInfoSearch(userName, firstName, lastName, email)
+  }
+
+
+  
   def findAll(): Iterator[LDAPUserInfo] = searchEmail("*@nurun.com")
 
   def searchEmail(emailPattern: String): Iterator[LDAPUserInfo] = {
