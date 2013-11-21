@@ -13,17 +13,17 @@ object LDAPUserInfoSearch {
   implicit object LDAPUserInfoSearchFormat extends Format[LDAPUserInfoSearch] {
     def writes(o:LDAPUserInfoSearch): JsValue = JsObject(
       List("value" -> JsString(o.email),
-        "token" -> Json.arr(o.firstName, o.lastName),
-        "firstName" -> JsString(o.firstName),
-        "lastName" -> JsString(o.lastName),
-        "userName" -> JsString(o.userName)
+	    "token" -> Json.arr(o.firstName, o.lastName),
+	    "firstName" -> JsString(o.firstName),
+		"lastName" -> JsString(o.lastName),
+		"userName" -> JsString(o.userName)
       )
-    )
+    )	
     def reads(json: JsValue) = JsSuccess( LDAPUserInfoSearch (
-      (json \ "value").as[String],
-      (json \ "firstName").as[String],
-      (json \ "lastName").as[String],
-      (json \ "userName").as[String]
-    ))
+	  (json \ "value").as[String],
+	  (json \ "firstName").as[String],
+	  (json \ "lastName").as[String],
+	  (json \ "userName").as[String]
+	))
   }
 }
