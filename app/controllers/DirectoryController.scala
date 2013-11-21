@@ -4,6 +4,7 @@ import play.api.mvc._
 import play.api.libs.json.Json
 import services.LDAPContext
 import services.EmailNotification
+import models.response.LDAPUserInfo
 
 object DirectoryController extends Controller {
 
@@ -23,5 +24,10 @@ object DirectoryController extends Controller {
     val ldapContext = LDAPContext.searchContext
     val result = ldapContext.searchAll().toSeq
     Ok(Json.toJson(result))
+  }
+
+  def sendNotification(emailPattern: String) = Action {
+    EmailNotification.send(List(emailPattern), List(emailPattern), "You have received Props from someone","That someone is you! (for now)")
+    Ok(Json.toJson("email sent"))
   }
 }
