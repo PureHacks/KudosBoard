@@ -52,7 +52,7 @@ var api = (function($) {
 		},
 		search: function(_query) {
 			if (_query) {
-				return this.request("", {
+				return this.request("search", {
 					"input": _query
 				});
 			} else {

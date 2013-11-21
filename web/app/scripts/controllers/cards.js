@@ -25,7 +25,10 @@ kudos.controller('CardsCtrl', function ($scope, $location, $routeParams, appLoad
 			//sendersName : [response.firstName + " " + response.lastName]
 		};
 		$scope.$apply();
-		console.log("fetch user = ",response);
+		//console.log("fetch user = ",response);
+	}).fail(function(error) {
+		console.log("fetch user error, error=",error);
+		window.location.href = "/props/login";
 	});
 	
 	$scope.createCard = function(card) {

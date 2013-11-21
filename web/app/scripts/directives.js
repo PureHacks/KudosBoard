@@ -7,19 +7,29 @@ kudos.directive("handleUsersQuery", function() {
 		element.typeahead({
 			name: "users",
 			prefetch: {
-				url: api.url() + "users",
+				url: api.url() + "search",
 				ttl: 10000
 				//ttl: 604800000,	// in milliseconds, cache data for 7 days
-			},
-			limit: 15,
-			template: function(data) {
-				console.log("data=",data);
-				var html = "", key, item;
-				for (key in data) {
-					item = data[key];
-					html += '<span>' + item.userName + "</span>";
+				/*
+				// this filter method also works!!!
+				filter: function(data){
+					var filterData = [];
+					for (var i=0; i<data.length; i++) {
+						filterData.push({
+							value : data[i].email,
+							token : [data[i].firstName, data[i].lastName],
+							firstName : data[i].firstName,
+							lastName : data[i].lastName
+						});
+					}
+					return filterData;
 				}
-				return '<div>' + html + '</div>';
+				*/				
+			},
+			limit: 12,
+			template: function(data) {
+				//console.log("data=",data);
+				return '<span>' + data.firstName + " " + data.lastName + '</span>';
 			}
 		});
 	};
