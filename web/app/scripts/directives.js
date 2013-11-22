@@ -8,7 +8,7 @@ kudos.directive("handleUsersQuery", function() {
 			name: "users",
 			prefetch: {
 				url: api.url() + "users",
-				ttl: 10000
+				ttl: 10000,
 				//ttl: 604800000,	// in milliseconds, cache data for 7 days
 				
 				// this filter method also works!!!
