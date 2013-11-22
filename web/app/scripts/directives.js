@@ -7,16 +7,16 @@ kudos.directive("handleUsersQuery", function() {
 		element.typeahead({
 			name: "users",
 			prefetch: {
-				url: api.url() + "search",
+				url: api.url() + "users",
 				ttl: 10000
 				//ttl: 604800000,	// in milliseconds, cache data for 7 days
-				/*
+				
 				// this filter method also works!!!
 				filter: function(data){
 					var filterData = [];
 					for (var i=0; i<data.length; i++) {
 						filterData.push({
-							value : data[i].email,
+							value : data[i].userName,
 							token : [data[i].firstName, data[i].lastName],
 							firstName : data[i].firstName,
 							lastName : data[i].lastName
@@ -24,7 +24,7 @@ kudos.directive("handleUsersQuery", function() {
 					}
 					return filterData;
 				}
-				*/				
+							
 			},
 			limit: 12,
 			template: function(data) {
