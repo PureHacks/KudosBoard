@@ -47,14 +47,28 @@ object CardService {
                startIndex: Int = 1,
                maxResults: Option[Int] = None,
                tags: Seq[String] = Seq(),
-               searchTerms: Seq[String] = Seq()): CardQuery = {
+               searchTerms: Seq[String] = Seq(),
+               sortBy: String,
+               sortDir: String): CardQuery = {
     db.withSession {
+
       val bySearchTerms = searchTerms.isEmpty match {
         case false =>
-          smartSearch(searchTerms.toList).sortBy(_.date desc)
+          (sortBy, sortDir) match {
+            case ("sender", _) => smartSearch(searchTerms.toList).sortBy(_.sender_id)
+            case (_, desc) => smartSearch(searchTerms.toList).sortBy(_.date desc)
+            case (_, _) => smartSearch(searchTerms.toList).sortBy(_.date)
+          }
+          smartSearch(searchTerms.toList).sortBy(_.date)
         case true =>
-          Query(DAO.cards).sortBy(_.date desc)
+          (sortBy, sortDir) match {
+            case ("sender", _) => Query(DAO.cards).sortBy(_.sender_id)
+            case (_, "desc") => Query(DAO.cards).sortBy(_.date desc)
+            case (_, _) => Query(DAO.cards).sortBy(_.date)
+          }
       }
+
+
       val byUser = forUsers.isEmpty match {
         case false =>
           for {
