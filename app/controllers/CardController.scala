@@ -1,5 +1,6 @@
 package controllers
 
+import org.omg.CosNaming.NamingContextPackage.NotFound
 import play.api.mvc._
 import services._
 import services.CardService._
@@ -8,7 +9,7 @@ import play.api.libs.json._
 import models.request.AddCardRequest
 import scala.util.Try
 
-object CardController extends Controller with Authentication {
+object CardController extends Controller {
 
   def getCard(id: Int) = Action {
     CardService.getCard(id) match {
