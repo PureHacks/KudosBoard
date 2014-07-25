@@ -56,7 +56,7 @@ object CardService {
         case false =>
           (sortBy, sortDir) match {
             case ("sender", _) => smartSearch(searchTerms.toList).sortBy(_.sender_id)
-            case (_, desc) => smartSearch(searchTerms.toList).sortBy(_.date desc)
+            case (_, "desc") => smartSearch(searchTerms.toList).sortBy(_.date desc)
             case (_, _) => smartSearch(searchTerms.toList).sortBy(_.date)
           }
           smartSearch(searchTerms.toList).sortBy(_.date)
