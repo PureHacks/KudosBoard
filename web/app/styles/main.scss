@@ -18,66 +18,66 @@ $teal: #44D6D8;
 
 /* Put your CSS here */
 body {
-    background: $black;
-    font-family: "Oxygen", sans-serif;
-    padding-top: 140px;
-    color: $black;
+		background: $black;
+		font-family: "Oxygen", sans-serif;
+		padding-top: 140px;
+		color: $black;
 
-    &.create-card {
-        padding-top: 0;
-    }
+		&.create-card {
+				padding-top: 0;
+		}
 }
 
 /* Resetting some styles */
 ul {
-    margin: 0;
-    padding: 0;
+		margin: 0;
+		padding: 0;
 }
 
-.app-loading-container { 
-    display: block;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 3;
-    color: $white;
+.app-loading-container {
+		display: block;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		z-index: 3;
+		color: $white;
 }
 
 .app-loading-animation {
-    width:60px;
-    height:60px;
-    display:block;
-    border-radius: 5px;
-    margin-left:-30px;
-    margin-top: -30px;
-    left: 50%;
-    top: 200px;
-    opacity:1;
-    position: absolute;
+		width:60px;
+		height:60px;
+		display:block;
+		border-radius: 5px;
+		margin-left:-30px;
+		margin-top: -30px;
+		left: 50%;
+		top: 200px;
+		opacity:1;
+		position: absolute;
 }
 
 .app-loading-animation.ready {
-    -webkit-opacity: 0;
-       -moz-opacity: 0;
-            opacity: 0;
-            top: -70px;
-    -webkit-transition: all 1s ease;
-       -moz-transition: all 1s ease;
-            transition: all 1s ease;
+		-webkit-opacity: 0;
+			 -moz-opacity: 0;
+						opacity: 0;
+						top: -70px;
+		-webkit-transition: all 1s ease;
+			 -moz-transition: all 1s ease;
+						transition: all 1s ease;
 }
 
 .app-loading-animation.loading {
-    opacity: 1;
-    top: 200px;
-    -webkit-transition: all 1s ease;
-       -moz-transition: all 1s ease;
-            transition: all 1s ease;
+		opacity: 1;
+		top: 200px;
+		-webkit-transition: all 1s ease;
+			 -moz-transition: all 1s ease;
+						transition: all 1s ease;
 }
 
 #login {
 	@extend .row;
 	margin:0 auto;
-	
+
 	.login-section {
 		@extend .col-xs-12;
 		@extend .col-sm-6;
@@ -87,11 +87,11 @@ ul {
 		@extend .col-lg-4;
 		@extend .col-lg-offset-4;
 	}
-	
+
 	.input-group {
 		margin-bottom:15px;
 	}
-	
+
 	.btn-default {
 		background-color: $teal;
 		border-radius: 0;
@@ -101,225 +101,235 @@ ul {
 }
 
 #navigation {
-    @extend .row;
-    display: block;
-    background-color: $white;
+		@extend .row;
+		display: block;
+		background-color: $white;
 
-    .controls {
-        @extend .navbar-header;
-        @extend .col-xs-12;
-        @extend .col-sm-8;
-        @extend .col-md-8;
-        @extend .col-lg-8;
+		.controls {
+				@extend .navbar-header;
+				@extend .col-xs-12;
+				@extend .col-sm-8;
+				@extend .col-md-8;
+				@extend .col-lg-8;
 
-        .btn-default {
-            border-radius: 0;
-            border-left: 0;
-            text-transform: uppercase;
-            background-color: $teal;
-            border-color: $black;
+				.btn-default {
+						border-radius: 0;
+						border-left: 0;
+						text-transform: uppercase;
+						background-color: $teal;
+						border-color: $black;
 			opacity: 0.75;
 			&:hover { color:#fff; opacity: 1; }
-        }
-    }
-		
-    .filters {
-        @extend .col-xs-12;
-        @extend .col-sm-4;
-        @extend .col-md-4;
-        @extend .col-lg-4;
-        background-color: $white;
-        color: $darkGray;
+				}
+		}
+
+		.filters {
+				@extend .col-xs-12;
+				@extend .col-sm-4;
+				@extend .col-md-4;
+				@extend .col-lg-4;
+				background-color: $white;
+				color: $darkGray;
 		margin-top:20px;
 
-        .form-control {
-            background-color: #EEEEEE;
-            border-right: 0;
-            margin-left: 12px;
-        }
+				.form-control {
+						background-color: #EEEEEE;
+						border-right: 0;
+						margin-left: 12px;
+				}
 
-        .search {
-            @extend .col-xs-7;
-        }
+				.search {
+						@extend .col-xs-7;
+				}
 
-        .sort {
-            @extend .col-xs-5;
+				.sort {
+						@extend .col-xs-5;
 
-            .btn {
-                right: 12px;
-                width: 100%;
-                text-align: left;
-                background-color: #EEEEEE;
+						.btn {
+								right: 12px;
+								width: 100%;
+								text-align: left;
+								background-color: #EEEEEE;
 
-                .caret {
-                    @extend .pull-right;
-                    margin-top: 7px;
-                }
-            }
+								.caret {
+										@extend .pull-right;
+										margin-top: 7px;
+								}
+						}
 
-            .dropdown-menu {
-                background-color: #EEEEEE;
-                left: 3px;
-            }
-        }
-    }
+						.dropdown-menu {
+								background-color: #EEEEEE;
+								left: 3px;
+						}
+				}
+		}
 }
 
-@media (max-width:768px) { 
+@media (max-width:768px) {
 	#navigation {
 		.filters {
-            margin-top: 12px;
-            margin-bottom: 12px;
-        }
+						margin-top: 12px;
+						margin-bottom: 12px;
+				}
 	}
 }
 
 .create-card {
-    #navigation {
-        display: none;
-    }
+		#navigation {
+				display: none;
+		}
 }
 
 .cards {
-    @extend .row;
+		@extend .row;
 
-    .card-wrapper {
-        @extend .col-xs-12;
-        @extend .col-sm-6;
-        @extend .col-md-4;
-        @extend .col-lg-4;
+		.card-wrapper {
+				@extend .col-xs-12;
+				@extend .col-sm-6;
+				@extend .col-md-4;
+				@extend .col-lg-4;
 
-        &.single {
-            @extend .col-sm-12;
-        }
-    }
+				&.single {
+						@extend .col-sm-12;
+				}
+		}
 
-    .card {
-        @extend .media;
-		height: 120px;
-        padding: 10px;
-        color: $darkGray;
-        background-color: $white;
+		.card {
+				@extend .media;
+				height: 120px;
+				margin-top: 0;
+				padding: 10px;
+				color: $darkGray;
+				background-color: $white;
 
-        a { color: $black; }
-		.media-heading a { text-transform: capitalize; }
-    }
+				a { color: $black; }
+				.media-heading a { text-transform: capitalize; }
+		}
 
-    .card-footer {
-        @extend .clearfix;
-        padding: 0 10px;
+		.card-header {
+			padding: 10px;
+			background-color: $lightGray;
+			
+			.card-date { 
+				margin:0;
+			}
+		}
 
-        background-color: $lightGray;
-        margin-bottom: 20px;
+		.card-footer {
+				@extend .clearfix;
+				padding: 0 10px;
 
-        .comments {
-            @extend .pull-left;
-            margin-top: 10px;
-        }
+				background-color: $lightGray;
+				margin-bottom: 20px;
 
-        .from {
-            @extend .pull-right;
-            margin-top: 10px;
-						
+				.comments {
+						@extend .pull-left;
+						margin-top: 10px;
+				}
+
+				.from {
+						@extend .pull-right;
+						margin-top: 10px;
+
 			a {
-                text-transform: capitalize;
-            }
-        }
-    }
+								text-transform: capitalize;
+						}
+				}
+		}
 
-    .media-object {
-        @extend .img-circle;
-    }
+		.media-object {
+				@extend .img-circle;
+		}
 }
 
 .single-card {
-    .img-circle {
-        margin-top: -64px;
-    }
+		.img-circle {
+				margin-top: -64px;
+		}
 
-    .card-wrapper {
-        background-color: $white;
-        text-align: center;
-        margin-top: 75px;
-    }
+		.card-wrapper {
+				background-color: $white;
+				text-align: center;
+				margin-top: 75px;
+		}
 
-    h2 {
-        color: $darkGray;
-        text-transform: uppercase;
-        font-size: 20px;
-    }
+		h2 {
+				color: $darkGray;
+				text-transform: uppercase;
+				font-size: 20px;
+		}
 
-    /* Override the bootstrap style */
-    blockquote {
-        border-left: none;
-        text-align: left;
-        font-size: 17.5px;
-        margin-top: -45px;
+		/* Override the bootstrap style */
+		blockquote {
+				border-left: none;
+				text-align: left;
+				font-size: 17.5px;
+				margin-top: -45px;
 
-        small {
-            text-align: center;
-        }
-    }
+				small {
+						text-align: center;
+				}
+		}
 
-    .icon-quote {
-        color: $lightGray;
-    }
+		.icon-quote {
+				color: $lightGray;
+		}
 
-    .icon-quote-right {
-        margin-top: -25px;
-    }
+		.icon-quote-right {
+				margin-top: -25px;
+		}
 
-    .message {
-        text-align: center;
-    }
+		.message {
+				text-align: center;
+		}
 
-    .recipient {
-        display: block;
-        color: $teal;
-        text-transform: capitalize;
-    }
+		.recipient {
+				display: block;
+				color: $teal;
+				text-transform: capitalize;
+		}
 
-    .sender {
-        color: $darkGray;
-        font-weight: bold;
-    }
+		.sender {
+				color: $darkGray;
+				font-weight: bold;
+		}
 
-    .card-footer {
-        height: 50px;
-        line-height: 50px;
-        text-transform: uppercase;
-        margin: 0;
-        font-size: 1.2em;
+		.card-footer {
+				height: 50px;
+				line-height: 50px;
+				text-transform: uppercase;
+				margin: 0;
+				font-size: 1.2em;
 
-        a {
-            color: $darkGray;
-        }
-    }
+				a {
+						color: $darkGray;
+				}
+		}
 
-    .backed-up {
-        background-color: $lightGray;
-    }
+		.backed-up {
+				background-color: $lightGray;
+		}
 
-    .back-this {
-        background-color: $teal;
-    }
+		.back-this {
+				background-color: $teal;
+		}
 }
 
 .create {
-    @extend .row;
-    
-    color: $teal;
+		@extend .row;
+
+		color: $teal;
 	margin-top:30px;
 
 	legend { color:$teal; text-transform:uppercase; }
-		
-    .create-form {
-        @extend .col-xs-12;
-				
+
+		.create-form {
+				@extend .col-xs-12;
+
 		.btn-cancel { position:absolute; top:-15px; right:15px; padding:3px 9px; }
-		.twitter-typeahead { 
+		.twitter-typeahead {
 			display:block !important;
-			
+
 			.tt-hint { visibility:hidden !important; }
 			.tt-dropdown-menu {
 				padding:10px 5px;
@@ -336,23 +346,23 @@ ul {
 				background-color:$teal;
 			}
 		}
-		
-		.recipients { background-color:#fff !important; }
-    }
 
-    .btn-default {
-        background-color: $teal;
-        border-radius: 0;
-				
+		.recipients { background-color:#fff !important; }
+		}
+
+		.btn-default {
+				background-color: $teal;
+				border-radius: 0;
+
 		&:hover { color:#fff; }
-    }
+		}
 }
 
 .user {
-    text-align: center;
+		text-align: center;
 
-    h2 {
-        color: $teal;
-        font-weight: bold;
-    }
+		h2 {
+				color: $teal;
+				font-weight: bold;
+		}
 }

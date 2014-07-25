@@ -1,5 +1,8 @@
 <ul class="cards">
 	<li id="card-{{ card.id }}" class="card-wrapper" ng-repeat="card in cards" >
+		<div class="card-header">
+			<p class="card-date">{{ card.date | date:'EEE, MMM d, yyyy' }}</p>
+		</div>
 		<div class="card">
 			<a class="pull-left" href="#/user/{{ card.recipients[0].userName }}">
 			  <img class="media-object" src="http://placehold.it/64x64" alt="{{ card.from.name }}">
